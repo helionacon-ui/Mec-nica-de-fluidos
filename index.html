@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mecánica de Fluidos · Guía para aprobar</title>
+<meta name="description" content="Guía para aprobar Mecánica de Fluidos (UPCT, GIEyA): propiedades de los fluidos, fluidostática, fuerzas hidrostáticas y flotación, cinemática, conservación de masa, impulso y energía, Navier-Stokes y flujo laminar, análisis dimensional y semejanza, flujo ideal y toberas, con figuras interactivas y problemas resueltos">
+<meta name="theme-color" content="#1b7a8c">
+<link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<link rel="stylesheet" href="style.css">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<div class="hub-bar" style="max-width:1180px;margin:0 auto;padding:10px 16px 0"><a href="https://helionacon-ui.github.io/GIEIA-UPCT/" style="display:inline-flex;align-items:center;gap:6px;font:600 13.5px/1 system-ui,sans-serif;padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);text-decoration:none">← Todas las guías GIEyA</a><p class="fecha" style="margin:6px 0 0;max-width:none;font:13px/1.45 system-ui,sans-serif;color:var(--muted)">Datos tomados del curso <time datetime="2022-09">2022/23</time> (guía docente, apuntes de los 14 temas, formularios y colecciones de problemas resueltos) · página creada en noviembre de 2026</p></div>
+<header class="hero"><div class="hero-in"><div class="hero-txt">
+<div class="eyebrow">UPCT · GIEyA · 2.º curso · 2.º cuatrimestre</div>
+<h1>Mecánica de <span>Fluidos</span></h1><p class="sub">De la estática a las toberas · Guía para aprobar</p>
+<div class="stats"><div><b>10</b><span>temas, de la viscosidad al flujo compresible</span></div><div><b>10</b><span>figuras interactivas que calculan contigo</span></div><div><b>9</b><span>problemas de examen resueltos</span></div><div><b>30</b><span>cuestiones de teoría respondidas</span></div></div>
+<div class="cta"><a class="btn pri" href="#cero">Empieza desde cero</a><a class="btn" href="cuestiones.html">Teoría</a><a class="btn" href="examenes.html">Exámenes</a><a class="btn" href="problemas.html">Problemas</a><a class="btn" href="laboratorio.html">Prácticas</a><a class="btn" href="formulario.html">Formulario</a></div>
+</div>
+<div aria-hidden="true" class="hero-art"><svg class="zart" viewBox="-120 -120 240 240">
+<path d="M -100 -40 C -40 -40, -40 10, 0 10 C 40 10, 60 -20, 100 -20" fill="none" stroke="var(--accent)" stroke-width="2.5"></path>
+<path d="M -100 0 C -40 0, -30 40, 0 40 C 40 40, 60 16, 100 16" fill="none" stroke="var(--accent)" stroke-width="2" opacity="0.7"></path>
+<path d="M -100 -80 C -40 -80, -50 -30, 0 -30 C 40 -30, 60 -52, 100 -52" fill="none" stroke="var(--accent)" stroke-width="2" opacity="0.7"></path>
+<path d="M -70 60 L 10 60 L 34 86 L -46 86 Z" fill="none" stroke="var(--warn)" stroke-width="2"></path>
+<circle cx="0" cy="10" r="5" fill="var(--warn)"></circle>
+<text fill="var(--muted)" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle" x="0" y="-96">p/&#947; + v&#178;/2g + z = cte</text>
+<text fill="var(--muted)" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle" x="0" y="108">Re = &#961;vD/&#956;</text></svg>
+<p class="art-cap">Líneas de corriente y un volumen de control: con eso se resuelve casi todo.</p></div></div></header><a href="#top" class="totop" id="totop" aria-label="Volver arriba">↑</a>
+<div class="wrap" id="top">
+<nav aria-label="Índice" class="toc"><a href="index.html" style="--tc:var(--c0)" class="on" aria-current="page">Portada</a><div class="grp">Empezar</div><a href="index.html#cero" style="--tc:var(--c0)" class="on" aria-current="page">Empieza aquí desde cero</a><a href="plan.html" style="--tc:var(--c0)">Cómo es la evaluación</a><a href="index.html#progreso" style="--tc:var(--c0)" class="on" aria-current="page">Tu progreso</a><div class="grp">Estática y cinemática</div><a href="tema-01.html" style="--tc:var(--c2)">T1 Naturaleza y propiedades de los fluidos</a><a href="tema-02.html" style="--tc:var(--c3)">T2 Fluidostática: presión y manometría</a><a href="tema-03.html" style="--tc:var(--c4)">T3 Fuerzas hidrostáticas y flotación</a><a href="tema-04.html" style="--tc:var(--c5)">T4 Cinemática y derivadas temporales</a><div class="grp">Ecuaciones generales y flujo ideal</div><a href="tema-05.html" style="--tc:var(--c6)">T5 Conservación de masa</a><a href="tema-06.html" style="--tc:var(--c7)">T6 Conservación de impulso</a><a href="tema-07.html" style="--tc:var(--c8)">T7 Conservación de energía</a><a href="tema-08.html" style="--tc:var(--c1)">T8 Navier-Stokes y flujo laminar</a><a href="tema-09.html" style="--tc:var(--c2)">T9 Análisis dimensional y semejanza</a><a href="tema-10.html" style="--tc:var(--c3)">T10 Flujo ideal, Euler-Bernoulli y toberas</a><div class="grp">Practicar</div><a href="cuestiones.html" style="--tc:var(--c8)">Cuestiones de teoría respondidas</a><a href="examenes.html" style="--tc:var(--c8)">Problemas tipo resueltos</a><a href="problemas.html" style="--tc:var(--c8)">Los boletines oficiales</a><a href="laboratorio.html" style="--tc:var(--c7)">Prácticas y evaluación</a><a href="formulario.html" style="--tc:var(--c8)">Formulario</a></nav>
+<main>
+<section class="sec" style="--tc:var(--c0);--tcs:var(--c0s)">
+<div class="sh"><span aria-hidden="true" class="badge">0</span><div class="shx"><p class="kick">Empezar</p><h2 id="cero">Empieza aquí desde cero</h2></div></div>
+<div class="zero"><p class="ft">Cómo usar la guía</p>
+<ol><li>Lee cada tema y <b>juega con su figura</b>: el perfil de velocidad entre placas y los fluidos no newtonianos, el <b>manómetro en U</b>, la fuerza sobre una compuerta y su <b>centro de presiones</b>, los campos de velocidad con sus líneas de corriente, la continuidad en una bifurcación, la <b>fuerza sobre un codo</b>, las <b>líneas de energía y piezométrica</b>, el perfil de Poiseuille con el número de Reynolds, la semejanza modelo-prototipo y la <b>tobera bloqueada</b>.</li>
+<li>Aprende el <b>hilo del curso</b>: propiedades (T1) ⇒ estática (T2-T3) ⇒ cómo se describe el movimiento (T4) ⇒ las tres ecuaciones de conservación aplicadas a un volumen de control, que son el corazón de la asignatura (T5 masa, T6 impulso, T7 energía) ⇒ y después los casos particulares: viscoso (T8), semejanza (T9) y flujo ideal (T10).</li>
+<li>Haz los <a href="examenes.html">problemas resueltos</a> en papel antes de mirar la solución: son los de las colecciones oficiales de la asignatura, los mismos que caen en el examen con otros números.</li>
+<li>Recorre las <a href="problemas.html">colecciones por temas</a> con la estrategia indicada.</li>
+<li>No descuides el <b>20 % de prácticas</b>: hay <a href="laboratorio.html">test y memoria</a>, con mínimo de 4 en cada parte.</li></ol></div>
+<h3 id="mapa">Mapa de temas</h3>
+<div class="map"><a href="tema-01.html"><b>T1</b>Naturaleza y propiedades de los fluidos</a><a href="tema-02.html"><b>T2</b>Fluidostática: presión y manometría</a><a href="tema-03.html"><b>T3</b>Fuerzas hidrostáticas y flotación</a><a href="tema-04.html"><b>T4</b>Cinemática y derivadas temporales</a><a href="tema-05.html"><b>T5</b>Conservación de masa</a><a href="tema-06.html"><b>T6</b>Conservación de impulso</a><a href="tema-07.html"><b>T7</b>Conservación de energía</a><a href="tema-08.html"><b>T8</b>Navier-Stokes y flujo laminar</a><a href="tema-09.html"><b>T9</b>Análisis dimensional y semejanza</a><a href="tema-10.html"><b>T10</b>Flujo ideal, Euler-Bernoulli y toberas</a></div>
+<div class="box key"><p><b>De dónde sale esta guía.</b> La <b>guía docente</b> del curso 2022/23, los apuntes de los <b>14 temas</b> del profesor M. M. Sánchez Nieto, los formularios de los dos parciales y las <b>colecciones de problemas resueltos</b> de fluidostática, hidrostática, cinemática, masa, impulso, energía, análisis dimensional, ecuaciones de Euler, flujo ideal y flujo compresible, con los tipos más repetidos resueltos aquí paso a paso.</p></div>
+<div class="box trap"><h4>Cómo es la evaluación</h4><p><b>Dos parciales del 40 % cada uno</b> con examen de <b>teoría y problemas</b>, y <b>mínimo de 4 sobre 10</b> en cada parcial <b>y en cada parte</b> (teoría y problemas) para poder hacer media. Las <b>prácticas valen el 20 %</b>: 10 % informe y 10 % test, con mínimo de 4 en cada uno.</p></div>
+<h3 id="progreso">Tu progreso</h3>
+<p class="muted">Se guarda en este navegador.</p>
+<div class="bar"><i id="prog-bar"></i></div><p id="prog-txt" class="muted"></p>
+<div class="check"><input type="checkbox" id="c1"><label for="c1">T1 · Naturaleza y propiedades de los fluidos</label></div><div class="check"><input type="checkbox" id="c2"><label for="c2">T2 · Fluidostática: presión y manometría</label></div><div class="check"><input type="checkbox" id="c3"><label for="c3">T3 · Fuerzas hidrostáticas y flotación</label></div><div class="check"><input type="checkbox" id="c4"><label for="c4">T4 · Cinemática y derivadas temporales</label></div><div class="check"><input type="checkbox" id="c5"><label for="c5">T5 · Conservación de masa</label></div><div class="check"><input type="checkbox" id="c6"><label for="c6">T6 · Conservación de impulso</label></div><div class="check"><input type="checkbox" id="c7"><label for="c7">T7 · Conservación de energía</label></div><div class="check"><input type="checkbox" id="c8"><label for="c8">T8 · Navier-Stokes y flujo laminar</label></div><div class="check"><input type="checkbox" id="c9"><label for="c9">T9 · Análisis dimensional y semejanza</label></div><div class="check"><input type="checkbox" id="c10"><label for="c10">T10 · Flujo ideal, Euler-Bernoulli y toberas</label></div>
+</section><p class="inicio" style="margin:36px 0 8px;text-align:center;font-size:13px;color:var(--muted)">Guía no oficial de Mecánica de Fluidos (UPCT, GIEyA) · Datos tomados del curso <time datetime="2022-09">2022/23</time> (guía docente, apuntes de los 14 temas, formularios y colecciones de problemas resueltos) · página creada en noviembre de 2026</p>
+</main>
+</div>
+<script src="app.js"></script>
+<script src="sims.js"></script>
+</body>
+</html>

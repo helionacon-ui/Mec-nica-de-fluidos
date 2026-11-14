@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>T4 Cinemática y derivadas temporales · Mecánica de Fluidos · Guía para aprobar</title>
+<meta name="description" content="Mecánica de Fluidos (UPCT, GIEyA): tema 4, Cinemática y derivadas temporales">
+<meta name="theme-color" content="#1b7a8c">
+<link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<link rel="stylesheet" href="style.css">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<div class="hub-bar" style="max-width:1180px;margin:0 auto;padding:10px 16px 0"><a href="https://helionacon-ui.github.io/GIEIA-UPCT/" style="display:inline-flex;align-items:center;gap:6px;font:600 13.5px/1 system-ui,sans-serif;padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);text-decoration:none">← Todas las guías GIEyA</a><p class="fecha" style="margin:6px 0 0;max-width:none;font:13px/1.45 system-ui,sans-serif;color:var(--muted)">Datos tomados del curso <time datetime="2022-09">2022/23</time> (guía docente, apuntes de los 14 temas, formularios y colecciones de problemas resueltos) · página creada en noviembre de 2026</p></div>
+<div class="crumb"><a href="index.html">Mecánica de Fluidos</a><span class="sep">›</span><span>Estática y cinemática</span><span class="sep">›</span><span>T4 · Cinemática y derivadas temporales</span></div><a href="#top" class="totop" id="totop" aria-label="Volver arriba">↑</a>
+<div class="wrap" id="top">
+<nav aria-label="Índice" class="toc"><a href="index.html" style="--tc:var(--c0)">Portada</a><div class="grp">Empezar</div><a href="index.html#cero" style="--tc:var(--c0)">Empieza aquí desde cero</a><a href="plan.html" style="--tc:var(--c0)">Cómo es la evaluación</a><a href="index.html#progreso" style="--tc:var(--c0)">Tu progreso</a><div class="grp">Estática y cinemática</div><a href="tema-01.html" style="--tc:var(--c2)">T1 Naturaleza y propiedades de los fluidos</a><a href="tema-02.html" style="--tc:var(--c3)">T2 Fluidostática: presión y manometría</a><a href="tema-03.html" style="--tc:var(--c4)">T3 Fuerzas hidrostáticas y flotación</a><a href="tema-04.html" style="--tc:var(--c5)" class="on" aria-current="page">T4 Cinemática y derivadas temporales</a><div class="grp">Ecuaciones generales y flujo ideal</div><a href="tema-05.html" style="--tc:var(--c6)">T5 Conservación de masa</a><a href="tema-06.html" style="--tc:var(--c7)">T6 Conservación de impulso</a><a href="tema-07.html" style="--tc:var(--c8)">T7 Conservación de energía</a><a href="tema-08.html" style="--tc:var(--c1)">T8 Navier-Stokes y flujo laminar</a><a href="tema-09.html" style="--tc:var(--c2)">T9 Análisis dimensional y semejanza</a><a href="tema-10.html" style="--tc:var(--c3)">T10 Flujo ideal, Euler-Bernoulli y toberas</a><div class="grp">Practicar</div><a href="cuestiones.html" style="--tc:var(--c8)">Cuestiones de teoría respondidas</a><a href="examenes.html" style="--tc:var(--c8)">Problemas tipo resueltos</a><a href="problemas.html" style="--tc:var(--c8)">Los boletines oficiales</a><a href="laboratorio.html" style="--tc:var(--c7)">Prácticas y evaluación</a><a href="formulario.html" style="--tc:var(--c8)">Formulario</a></nav>
+<main>
+<section class="sec tema" style="--tc:var(--c5);--tcs:var(--c5s)">
+<div class="sh"><span aria-hidden="true" class="badge">4</span><div class="shx"><p class="kick">Estática y cinemática · Tema 4</p><h2 id="t4">Cinemática y derivadas temporales</h2><div class="tags"><span class="tag">Estática y cinemática</span><span class="tag">1.er parcial (40 %)</span></div></div></div>
+<div class="zero"><p class="ft">Desde cero</p><p><b>Objetivo:</b> describir el movimiento del fluido con las descripciones euleriana y lagrangiana, distinguir trayectoria, senda, traza y línea de corriente, y manejar la derivada sustancial y el teorema del transporte de Reynolds.</p><ul>
+<li><b>Lagrange</b> sigue a cada partícula; <b>Euler</b> mira lo que pasa en cada punto del espacio. En fluidos se usa casi siempre Euler, porque no interesa qué hace cada partícula sino el campo \(\vec v(x,y,z,t)\).</li>
+<li>La <b>derivada sustancial</b> es el puente entre ambas: \(\dfrac{D\phi}{Dt}=\dfrac{\partial\phi}{\partial t}+(\vec v\cdot\nabla)\phi\). El primer término es el cambio <b>local</b> (en un punto fijo) y el segundo el <b>convectivo</b> (por moverse a otro sitio).</li>
+<li>Un flujo puede ser <b>estacionario y tener aceleración</b>: en una tobera el campo no cambia con el tiempo, pero cada partícula se acelera al avanzar (aceleración puramente convectiva).</li>
+<li>Cuatro curvas que conviene no confundir: <b>trayectoria/senda</b> (camino de una partícula), <b>traza</b> (lugar de todas las que pasaron por un punto, como el humo de una chimenea) y <b>línea de corriente</b> (tangente al campo de velocidades en un instante). <b>En régimen estacionario las tres coinciden.</b></li>
+<li>El <b>teorema del transporte de Reynolds</b> convierte una ley para un sistema (masa fija) en una ley para un <b>volumen de control</b>: variación dentro + flujo convectivo a través de la superficie.</li>
+</ul></div>
+<details class="nom"><summary><span aria-hidden="true" class="nom-ic">Aa</span>Nomenclatura del tema 4 <span class="src">8 símbolos</span></summary><div class="inner">
+<div class="tw"><table><tr><th>Símbolo</th><th>Qué significa</th><th>Unidades · ejemplo</th></tr><tr><td class="sym">Dφ/Dt</td><td>Derivada sustancial</td><td class="u">local + convectiva</td></tr><tr><td class="sym">línea de corriente</td><td>dx/u = dy/v</td><td class="u">a t fijo</td></tr><tr><td class="sym">trayectoria</td><td>dx/dt = u</td><td class="u"></td></tr><tr><td class="sym">traza</td><td>Partículas emitidas en un punto</td><td class="u"></td></tr><tr><td class="sym">∇·v</td><td>Dilatación</td><td class="u">0 si incompresible</td></tr><tr><td class="sym">ω = ∇×v</td><td>Vorticidad</td><td class="u">0 si irrotacional</td></tr><tr><td class="sym">TTR</td><td>Teorema del transporte</td><td class="u"></td></tr><tr><td class="sym">v_r = v − v_c</td><td>Velocidad relativa</td><td class="u">VC móvil</td></tr></table></div></div></details>
+<figure class="fig"><p class="ft">Figura interactiva - campos de velocidad, lineas de corriente y aceleracion</p><div data-sim="cinematica"></div><figcaption>Mueve los controles y lee el recuadro: la figura calcula lo mismo que tú harías a mano en el examen.</figcaption></figure>
+<h3 id="t4-formulas">Lo que tienes que saber</h3>
+<div class="box key"><ul>
+<li>Derivada sustancial: \(\dfrac{D\phi}{Dt}=\dfrac{\partial\phi}{\partial t}+u\dfrac{\partial\phi}{\partial x}+v\dfrac{\partial\phi}{\partial y}+w\dfrac{\partial\phi}{\partial z}\).</li>
+<li>Aceleración: \(\vec a=\dfrac{\partial\vec v}{\partial t}+(\vec v\cdot\nabla)\vec v\) (local + convectiva).</li>
+<li>Líneas de corriente: \(\dfrac{dx}{u}=\dfrac{dy}{v}=\dfrac{dz}{w}\) a \(t\) fijo.</li>
+<li>Trayectorias: \(\dfrac{dx}{dt}=u(x,y,z,t)\), integrando con la posición inicial como condición.</li>
+<li>Teorema del transporte: \(\dfrac{d\Phi}{dt}\bigg|_{sistema}=\dfrac{d}{dt}\displaystyle\int_{V_c}\phi\,dV+\int_{\Sigma_c}\phi\,(\vec v_r\cdot\vec n)\,d\sigma\), con \(\vec v_r=\vec v-\vec v_c\) la velocidad <b>relativa</b> a la superficie de control.</li>
+<li>Caudal y gasto: \(Q=\displaystyle\int_A\vec v\cdot\vec n\,dA\) [m³/s], \(G=\rho Q\) [kg/s]; velocidad media \(\bar v=Q/A\).</li>
+<li>Deformación: \(\nabla\cdot\vec v\) = dilatación volumétrica; \(\vec\omega=\nabla\times\vec v\) = <b>vorticidad</b> (doble de la velocidad angular local). Flujo <b>irrotacional</b> si \(\nabla\times\vec v=0\).</li>
+</ul></div>
+<h3 id="t4-metodo">Cómo se resuelve</h3>
+<ol class="steps"><li>Lee el campo \(\vec v\) y comprueba si <b>depende de t</b>: si no, el flujo es estacionario y las tres curvas coinciden.</li>
+<li>Para <b>líneas de corriente</b>, integra \(dx/u=dy/v\) con \(t\) como parámetro fijo.</li>
+<li>Para <b>trayectorias</b>, integra \(dx/dt=u\) y \(dy/dt=v\) con las condiciones iniciales, y elimina \(t\) si piden la curva.</li>
+<li>Para la <b>traza</b>, integra las trayectorias de las partículas que pasaron por el punto en todos los instantes \(\tau<t\) y evalúalas en el instante pedido.</li>
+<li>Para la <b>aceleración</b>, escribe los cuatro términos y marca cuáles se anulan; no te saltes el convectivo aunque el flujo sea estacionario.</li></ol>
+<div class="box trap"><h4>Trampas típicas</h4><ul>
+<li><b>Decir que un flujo estacionario no tiene aceleración.</b> La tiene si el campo varía en el espacio: ése es el término convectivo.</li>
+<li>Confundir línea de corriente con trayectoria en flujo no estacionario: sólo coinciden si \(\partial\vec v/\partial t=0\).</li>
+<li>Integrar las líneas de corriente dejando \(t\) variar: en esa integración el tiempo está <b>congelado</b>.</li>
+<li>Olvidar la velocidad <b>relativa</b> en el teorema del transporte cuando el volumen de control se mueve (aspersores, cohetes, álabes móviles).</li>
+<li>Confundir vorticidad con rotación del fluido como un todo: un flujo puede circular y ser irrotacional (torbellino libre) y puede ir en línea recta y ser rotacional (flujo cortante).</li>
+</ul></div>
+<h3 id="t4-problema">Problema tipo</h3>
+<div class="prob"><div class="enun"><p class="et">Enunciado</p><p>Un campo de velocidades bidimensional y estacionario viene dado por \(u=ax\), \(v=-ay\), con \(a=2\) s⁻¹.</p>
+<p>Calcula: a) las líneas de corriente; b) la trayectoria de la partícula que en \(t=0\) está en (1, 1); c) la aceleración en el punto (2, 1); d) comprueba si el flujo es incompresible e irrotacional.</p></div>
+<details class="paso"><summary><span class="pn">✓</span>Ver solución paso a paso</summary><div class="inner"><p><b>a) Líneas de corriente.</b></p>
+\[\frac{dx}{u}=\frac{dy}{v}\ \Rightarrow\ \frac{dx}{ax}=\frac{dy}{-ay}\ \Rightarrow\ \ln x=-\ln y+C\ \Rightarrow\ \boxed{xy=K}\]
+<p>Son <b>hipérbolas</b>: el flujo típico de un punto de remanso, donde la corriente llega por el eje \(y\) y se desvía hacia el eje \(x\).</p>
+<p><b>b) Trayectoria.</b> Integramos el movimiento de la partícula:</p>
+\[\frac{dx}{dt}=2x\ \Rightarrow\ x=e^{2t};\qquad \frac{dy}{dt}=-2y\ \Rightarrow\ y=e^{-2t}\]
+<p>Eliminando \(t\): \(xy=1\). Como el flujo es <b>estacionario</b>, la trayectoria coincide con la línea de corriente que pasa por (1, 1), como tenía que ser.</p>
+<p><b>c) Aceleración.</b> No hay término local (\(\partial\vec v/\partial t=0\)), así que toda la aceleración es convectiva:</p>
+\[a_x=u\frac{\partial u}{\partial x}+v\frac{\partial u}{\partial y}=ax\cdot a=a^2x=4\cdot2=\mathbf{8\ m/s^2}\]
+\[a_y=u\frac{\partial v}{\partial x}+v\frac{\partial v}{\partial y}=(-ay)(-a)=a^2y=4\cdot1=\mathbf{4\ m/s^2}\]
+<p>Flujo estacionario con aceleración no nula: la partícula se acelera porque <b>se mueve a zonas de mayor velocidad</b>.</p>
+<p><b>d) Incompresible e irrotacional.</b></p>
+\[\nabla\cdot\vec v=\frac{\partial u}{\partial x}+\frac{\partial v}{\partial y}=a-a=0\ \checkmark\ \text{(incompresible)}\]
+\[\omega_z=\frac{\partial v}{\partial x}-\frac{\partial u}{\partial y}=0-0=0\ \checkmark\ \text{(irrotacional)}\]
+<p>Al ser incompresible e irrotacional, admite función de corriente \(\psi=axy\) y potencial \(\phi=\frac{a}{2}(x^2-y^2)\): es el flujo potencial de esquina que reaparece en el tema de flujo ideal.</p></div></details></div>
+<h3 id="t4-auto">Autoevaluación</h3>
+<p class="muted">Responde antes de desplegar.</p><details class="paso"><summary><span class="pn">1</span>¿Qué diferencia hay entre la descripción euleriana y la lagrangiana?</summary><div class="inner"><p>Lagrange <b>sigue a cada partícula</b> (como una cámara montada en una boya); Euler mide en <b>puntos fijos</b> del espacio (como un sensor en una pared). La derivada sustancial traduce de una a otra.</p></div></details><details class="paso"><summary><span class="pn">2</span>¿Puede un flujo estacionario tener aceleración?</summary><div class="inner"><p>Sí: la aceleración convectiva \((\vec v\cdot\nabla)\vec v\). En una tobera el campo no cambia con el tiempo, pero cada partícula se acelera al avanzar hacia la garganta.</p></div></details><details class="paso"><summary><span class="pn">3</span>Trayectoria, senda, traza y línea de corriente: ¿cuándo coinciden?</summary><div class="inner"><p>Siempre que el flujo sea <b>estacionario</b>. La traza es lo que se ve al inyectar humo o tinta en un punto fijo; la línea de corriente es una foto instantánea del campo.</p></div></details><details class="paso"><summary><span class="pn">4</span>¿Qué dice el teorema del transporte de Reynolds?</summary><div class="inner"><p>Que la variación de una magnitud en un <b>sistema</b> (masa fija) es igual a su variación dentro del <b>volumen de control</b> más el <b>flujo convectivo</b> neto a través de su superficie. Es lo que permite aplicar las leyes de la mecánica a un volumen por el que pasa fluido.</p></div></details><details class="paso"><summary><span class="pn">5</span>¿Qué es la vorticidad?</summary><div class="inner"><p>\(\vec\omega=\nabla\times\vec v\), el doble de la velocidad angular local de la partícula. Un flujo con vorticidad nula es <b>irrotacional</b>: las partículas se trasladan y deforman, pero no giran sobre sí mismas.</p></div></details><details class="paso"><summary><span class="pn">6</span>En un volumen de control móvil, ¿qué velocidad va en el flujo convectivo?</summary><div class="inner"><p>La <b>relativa</b>, \(\vec v_r=\vec v-\vec v_c\). Es el error típico en aspersores, cohetes y álabes móviles.</p></div></details><details class="paso"><summary><span class="pn">7</span>¿Qué significa \(\nabla\cdot\vec v=0\)?</summary><div class="inner"><p>Que el flujo es <b>incompresible</b>: la dilatación volumétrica de la partícula es nula, su volumen (y su densidad) no cambian al moverse.</p></div></details>
+</section>
+<nav class="pager" aria-label="Páginas"><a href="tema-03.html"><small>← Anterior</small>T3 · Fuerzas hidrostáticas y flotación</a><a class="nx" href="tema-05.html"><small>Siguiente →</small>T5 · Conservación de masa</a></nav>
+<p class="inicio" style="margin:36px 0 8px;text-align:center;font-size:13px;color:var(--muted)">Guía no oficial de Mecánica de Fluidos (UPCT, GIEyA) · Datos tomados del curso <time datetime="2022-09">2022/23</time> (guía docente, apuntes de los 14 temas, formularios y colecciones de problemas resueltos) · página creada en noviembre de 2026</p>
+</main>
+</div>
+<script src="app.js"></script>
+<script src="sims.js"></script>
+</body>
+</html>

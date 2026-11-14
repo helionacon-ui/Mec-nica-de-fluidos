@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>T5 Conservación de masa · Mecánica de Fluidos · Guía para aprobar</title>
+<meta name="description" content="Mecánica de Fluidos (UPCT, GIEyA): tema 5, Conservación de masa">
+<meta name="theme-color" content="#1b7a8c">
+<link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<link rel="stylesheet" href="style.css">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<div class="hub-bar" style="max-width:1180px;margin:0 auto;padding:10px 16px 0"><a href="https://helionacon-ui.github.io/GIEIA-UPCT/" style="display:inline-flex;align-items:center;gap:6px;font:600 13.5px/1 system-ui,sans-serif;padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);text-decoration:none">← Todas las guías GIEyA</a><p class="fecha" style="margin:6px 0 0;max-width:none;font:13px/1.45 system-ui,sans-serif;color:var(--muted)">Datos tomados del curso <time datetime="2022-09">2022/23</time> (guía docente, apuntes de los 14 temas, formularios y colecciones de problemas resueltos) · página creada en noviembre de 2026</p></div>
+<div class="crumb"><a href="index.html">Mecánica de Fluidos</a><span class="sep">›</span><span>Ecuaciones generales y flujo ideal</span><span class="sep">›</span><span>T5 · Conservación de masa</span></div><a href="#top" class="totop" id="totop" aria-label="Volver arriba">↑</a>
+<div class="wrap" id="top">
+<nav aria-label="Índice" class="toc"><a href="index.html" style="--tc:var(--c0)">Portada</a><div class="grp">Empezar</div><a href="index.html#cero" style="--tc:var(--c0)">Empieza aquí desde cero</a><a href="plan.html" style="--tc:var(--c0)">Cómo es la evaluación</a><a href="index.html#progreso" style="--tc:var(--c0)">Tu progreso</a><div class="grp">Estática y cinemática</div><a href="tema-01.html" style="--tc:var(--c2)">T1 Naturaleza y propiedades de los fluidos</a><a href="tema-02.html" style="--tc:var(--c3)">T2 Fluidostática: presión y manometría</a><a href="tema-03.html" style="--tc:var(--c4)">T3 Fuerzas hidrostáticas y flotación</a><a href="tema-04.html" style="--tc:var(--c5)">T4 Cinemática y derivadas temporales</a><div class="grp">Ecuaciones generales y flujo ideal</div><a href="tema-05.html" style="--tc:var(--c6)" class="on" aria-current="page">T5 Conservación de masa</a><a href="tema-06.html" style="--tc:var(--c7)">T6 Conservación de impulso</a><a href="tema-07.html" style="--tc:var(--c8)">T7 Conservación de energía</a><a href="tema-08.html" style="--tc:var(--c1)">T8 Navier-Stokes y flujo laminar</a><a href="tema-09.html" style="--tc:var(--c2)">T9 Análisis dimensional y semejanza</a><a href="tema-10.html" style="--tc:var(--c3)">T10 Flujo ideal, Euler-Bernoulli y toberas</a><div class="grp">Practicar</div><a href="cuestiones.html" style="--tc:var(--c8)">Cuestiones de teoría respondidas</a><a href="examenes.html" style="--tc:var(--c8)">Problemas tipo resueltos</a><a href="problemas.html" style="--tc:var(--c8)">Los boletines oficiales</a><a href="laboratorio.html" style="--tc:var(--c7)">Prácticas y evaluación</a><a href="formulario.html" style="--tc:var(--c8)">Formulario</a></nav>
+<main>
+<section class="sec tema" style="--tc:var(--c6);--tcs:var(--c6s)">
+<div class="sh"><span aria-hidden="true" class="badge">5</span><div class="shx"><p class="kick">Ecuaciones generales y flujo ideal · Tema 5</p><h2 id="t5">Conservación de masa</h2><div class="tags"><span class="tag">Ecuaciones generales y flujo ideal</span><span class="tag">1.er parcial (40 %)</span></div></div></div>
+<div class="zero"><p class="ft">Desde cero</p><p><b>Objetivo:</b> aplicar la ecuación de continuidad en forma integral a volúmenes de control fijos y móviles: tuberías con ramificaciones, depósitos que se llenan o vacían y dispositivos giratorios.</p><ul>
+<li>La masa no se crea ni se destruye: aplicando el teorema del transporte con \(\phi=\rho\),
+\(\dfrac{d}{dt}\displaystyle\int_{V_c}\rho\,dV+\int_{\Sigma_c}\rho(\vec v_r\cdot\vec n)\,d\sigma=0\).</li>
+<li>En <b>régimen permanente</b> el primer término desaparece y queda simplemente <b>lo que entra = lo que sale</b>: \(\sum\rho_iA_iv_i\) con signo.</li>
+<li>Si además el flujo es <b>incompresible</b>, se conserva el <b>caudal</b>: \(Q=Av\) constante. De ahí que al estrechar una tubería la velocidad suba.</li>
+<li>Para un <b>depósito</b> que se llena o vacía, el término de acumulación es el que manda: \(A_{depósito}\dfrac{dh}{dt}=Q_e-Q_s\), una ecuación diferencial que casi siempre pide separación de variables.</li>
+<li>Con volúmenes de control <b>móviles o deformables</b> (aspersores, álabes, cohetes) hay que usar la <b>velocidad relativa</b> en el flujo convectivo.</li>
+<li>Forma diferencial: \(\dfrac{\partial\rho}{\partial t}+\nabla\cdot(\rho\vec v)=0\), que para flujo incompresible se reduce a \(\nabla\cdot\vec v=0\).</li>
+</ul></div>
+<details class="nom"><summary><span aria-hidden="true" class="nom-ic">Aa</span>Nomenclatura del tema 5 <span class="src">7 símbolos</span></summary><div class="inner">
+<div class="tw"><table><tr><th>Símbolo</th><th>Qué significa</th><th>Unidades · ejemplo</th></tr><tr><td class="sym">Q = Av</td><td>Caudal</td><td class="u">m³/s</td></tr><tr><td class="sym">G = ρQ</td><td>Gasto másico</td><td class="u">kg/s</td></tr><tr><td class="sym">Q₁ = Q₂</td><td>Continuidad incompresible</td><td class="u"></td></tr><tr><td class="sym">ρ₁A₁v₁ = ρ₂A₂v₂</td><td>Continuidad compresible</td><td class="u"></td></tr><tr><td class="sym">A dh/dt</td><td>Acumulación en depósito</td><td class="u"></td></tr><tr><td class="sym">C_d</td><td>Coeficiente de descarga</td><td class="u">≈0,6 orificio</td></tr><tr><td class="sym">v = √(2gh)</td><td>Torricelli</td><td class="u"></td></tr></table></div></div></details>
+<figure class="fig"><p class="ft">Figura interactiva - continuidad en una bifurcacion</p><div data-sim="masa"></div><figcaption>Mueve los controles y lee el recuadro: la figura calcula lo mismo que tú harías a mano en el examen.</figcaption></figure>
+<h3 id="t5-formulas">Lo que tienes que saber</h3>
+<div class="box key"><ul>
+<li>\(\dfrac{d}{dt}\displaystyle\int_{V_c}\rho\,dV+\int_{\Sigma_c}\rho(\vec v_r\cdot\vec n)\,d\sigma=0\).</li>
+<li>Régimen permanente unidimensional: \(\rho_1A_1v_1=\rho_2A_2v_2=G\) [kg/s].</li>
+<li>Incompresible: \(A_1v_1=A_2v_2=Q\); con bifurcación \(Q_A=Q_C+Q_D\).</li>
+<li>Área circular \(A=\dfrac{\pi D^2}{4}\): al reducir el diámetro a la mitad, la velocidad se <b>cuadruplica</b>.</li>
+<li>Depósito: \(A_d\dfrac{dh}{dt}=Q_e-Q_s\); con desagüe por gravedad \(Q_s=C_dA_o\sqrt{2gh}\) ⇒ \(t=\dfrac{2A_d}{C_dA_o\sqrt{2g}}\left(\sqrt{h_0}-\sqrt{h}\right)\).</li>
+<li>Volumen de control móvil: \(\vec v_r=\vec v-\vec v_c\); en un aspersor que gira, \(\vec v_{abs}=\vec w+\vec\omega\times\vec r\).</li>
+<li>Forma diferencial: \(\dfrac{\partial\rho}{\partial t}+\nabla\cdot(\rho\vec v)=0\).</li>
+</ul></div>
+<h3 id="t5-metodo">Cómo se resuelve</h3>
+<ol class="steps"><li><b>Dibuja el volumen de control</b> y márcalo: por dónde entra y sale masa, y si se mueve o deforma.</li>
+<li>Decide si hay <b>acumulación</b>: ¿cambia la masa dentro? Si el enunciado habla de un nivel que sube o baja, sí.</li>
+<li>Escribe el balance con signos: el flujo es <b>positivo hacia fuera</b> (\(\vec v\cdot\vec n>0\) en las salidas).</li>
+<li>Si el fluido es incompresible, trabaja con <b>caudales</b>; si es un gas, con <b>gastos másicos</b> y no olvides \(\rho=p/RT\).</li>
+<li>En depósitos, plantea la ecuación diferencial, <b>separa variables</b> e integra con las condiciones del enunciado.</li></ol>
+<div class="box trap"><h4>Trampas típicas</h4><ul>
+<li><b>Igualar velocidades en vez de caudales.</b> Lo que se conserva es \(Av\), no \(v\).</li>
+<li>Con gases, igualar caudales volumétricos: se conserva el <b>gasto másico</b> \(\rho Av\), y la densidad cambia.</li>
+<li>Usar velocidad absoluta en volúmenes de control móviles.</li>
+<li>Olvidar el término de acumulación en depósitos y llegar a un absurdo (nivel constante).</li>
+<li>Confundir el área de paso: en un difusor de discos paralelos el área de salida es la <b>lateral</b> \(\pi Dh\), no \(\pi D^2/4\).</li>
+</ul></div>
+<h3 id="t5-problema">Problema tipo</h3>
+<div class="prob"><div class="enun"><p class="et">Enunciado</p><p><b>(Problemas 7.1 y 7.2 de la colección.)</b> a) Un tubo circular se bifurca: el agua entra por A, pasa por B y sale por C y D. La velocidad media en B es de <b>0,6 m/s</b> y en C de <b>2,7 m/s</b>. Datos: \(D_A=0{,}15\) m, \(D_B=0{,}30\) m, \(D_C=0{,}10\) m, \(D_D=0{,}05\) m. Calcula las velocidades medias en A y D y los caudales.</p>
+<p>b) Una tubería de <b>200 mm</b> transporta <b>1 m³/s</b> de agua y termina en un difusor formado por <b>dos discos paralelos de 500 mm</b> separados <b>100 mm</b>. Calcula la velocidad media en la tubería y a la salida del difusor.</p></div>
+<details class="paso"><summary><span class="pn">✓</span>Ver solución paso a paso</summary><div class="inner"><p><b>a) Bifurcación.</b> Régimen permanente e incompresible ⇒ se conserva el caudal. Primero el caudal total, con los datos del tramo B:</p>
+\[Q=v_BA_B=0{,}6\cdot\frac{\pi\cdot0{,}30^2}{4}=0{,}6\cdot0{,}07069=\mathbf{0{,}04241\ m^3/s}\]
+<p>Como A y B están en serie, \(Q_A=Q_B\):</p>
+\[v_A=\frac{Q}{A_A}=\frac{0{,}04241}{0{,}01767}=\mathbf{2{,}40\ m/s}\]
+<p>En la bifurcación, \(Q=Q_C+Q_D\):</p>
+\[Q_C=v_CA_C=2{,}7\cdot0{,}007854=0{,}02121\ \text{m}^3/\text{s}\quad\Rightarrow\quad Q_D=0{,}04241-0{,}02121=\mathbf{0{,}02121\ m^3/s}\]
+\[v_D=\frac{Q_D}{A_D}=\frac{0{,}02121}{0{,}0019635}=\mathbf{10{,}80\ m/s}\]
+<p>El caudal se reparte por igual, pero como el diámetro de D es la mitad que el de C, su velocidad es <b>cuatro veces mayor</b>.</p>
+<p><b>b) Difusor de discos.</b> En la tubería:</p>
+\[v_t=\frac{Q}{A}=\frac{1}{\pi\cdot0{,}2^2/4}=\frac{1}{0{,}03142}=\mathbf{31{,}83\ m/s}\]
+<p>A la salida del difusor el fluido sale <b>radialmente</b> por la superficie lateral del cilindro que forman los dos discos, de área \(A_s=\pi Dh=\pi\cdot0{,}5\cdot0{,}1=0{,}1571\) m²:</p>
+\[v_s=\frac{1}{0{,}1571}=\mathbf{6{,}37\ m/s}\]
+<p class="muted">La clave del apartado b es identificar <b>cuál es el área de paso</b>. Dibujar el volumen de control y preguntarse «¿por dónde sale realmente el fluido?» resuelve la mitad de los problemas de continuidad.</p></div></details></div>
+<h3 id="t5-auto">Autoevaluación</h3>
+<p class="muted">Responde antes de desplegar.</p><details class="paso"><summary><span class="pn">1</span>¿Qué se conserva en una tubería por la que circula un gas que se calienta?</summary><div class="inner"><p>El <b>gasto másico</b> \(\rho Av\), no el caudal. Si la densidad baja, la velocidad tiene que subir aunque la sección sea constante.</p></div></details><details class="paso"><summary><span class="pn">2</span>Una tubería reduce su diámetro a la mitad. ¿Qué pasa con la velocidad?</summary><div class="inner"><p>Se multiplica por <b>cuatro</b>, porque el área va con \(D^2\) y el caudal se conserva.</p></div></details><details class="paso"><summary><span class="pn">3</span>¿Cuándo aparece el término de acumulación?</summary><div class="inner"><p>Cuando la masa dentro del volumen de control cambia con el tiempo: depósitos que se llenan o vacían, globos que se hinchan, conductos en régimen transitorio.</p></div></details><details class="paso"><summary><span class="pn">4</span>En un aspersor que gira, ¿qué velocidad hay que usar en el balance de masa?</summary><div class="inner"><p>La <b>relativa al conducto</b>, \(\vec w\). La absoluta se obtiene después como \(\vec v=\vec w+\vec\omega\times\vec r\), y es la que hace falta para el momento cinético.</p></div></details><details class="paso"><summary><span class="pn">5</span>¿Cómo se calcula el tiempo de vaciado de un depósito por un orificio?</summary><div class="inner"><p>Planteando \(A_d\,dh/dt=-C_dA_o\sqrt{2gh}\) y separando variables; sale \(t\propto(\sqrt{h_0}-\sqrt{h})\), es decir, el vaciado se hace cada vez más lento.</p></div></details><details class="paso"><summary><span class="pn">6</span>¿Qué forma toma la continuidad para flujo incompresible?</summary><div class="inner"><p>\(\nabla\cdot\vec v=0\) en forma diferencial, y \(Q=\) constante en forma integral unidimensional.</p></div></details>
+</section>
+<nav class="pager" aria-label="Páginas"><a href="tema-04.html"><small>← Anterior</small>T4 · Cinemática y derivadas temporales</a><a class="nx" href="tema-06.html"><small>Siguiente →</small>T6 · Conservación de impulso</a></nav>
+<p class="inicio" style="margin:36px 0 8px;text-align:center;font-size:13px;color:var(--muted)">Guía no oficial de Mecánica de Fluidos (UPCT, GIEyA) · Datos tomados del curso <time datetime="2022-09">2022/23</time> (guía docente, apuntes de los 14 temas, formularios y colecciones de problemas resueltos) · página creada en noviembre de 2026</p>
+</main>
+</div>
+<script src="app.js"></script>
+<script src="sims.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>T8 Navier-Stokes y flujo laminar · Mecánica de Fluidos · Guía para aprobar</title>
+<meta name="description" content="Mecánica de Fluidos (UPCT, GIEyA): tema 8, Navier-Stokes y flujo laminar">
+<meta name="theme-color" content="#1b7a8c">
+<link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<link rel="stylesheet" href="style.css">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<div class="hub-bar" style="max-width:1180px;margin:0 auto;padding:10px 16px 0"><a href="https://helionacon-ui.github.io/GIEIA-UPCT/" style="display:inline-flex;align-items:center;gap:6px;font:600 13.5px/1 system-ui,sans-serif;padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);text-decoration:none">← Todas las guías GIEyA</a><p class="fecha" style="margin:6px 0 0;max-width:none;font:13px/1.45 system-ui,sans-serif;color:var(--muted)">Datos tomados del curso <time datetime="2022-09">2022/23</time> (guía docente, apuntes de los 14 temas, formularios y colecciones de problemas resueltos) · página creada en noviembre de 2026</p></div>
+<div class="crumb"><a href="index.html">Mecánica de Fluidos</a><span class="sep">›</span><span>Ecuaciones generales y flujo ideal</span><span class="sep">›</span><span>T8 · Navier-Stokes y flujo laminar</span></div><a href="#top" class="totop" id="totop" aria-label="Volver arriba">↑</a>
+<div class="wrap" id="top">
+<nav aria-label="Índice" class="toc"><a href="index.html" style="--tc:var(--c0)">Portada</a><div class="grp">Empezar</div><a href="index.html#cero" style="--tc:var(--c0)">Empieza aquí desde cero</a><a href="plan.html" style="--tc:var(--c0)">Cómo es la evaluación</a><a href="index.html#progreso" style="--tc:var(--c0)">Tu progreso</a><div class="grp">Estática y cinemática</div><a href="tema-01.html" style="--tc:var(--c2)">T1 Naturaleza y propiedades de los fluidos</a><a href="tema-02.html" style="--tc:var(--c3)">T2 Fluidostática: presión y manometría</a><a href="tema-03.html" style="--tc:var(--c4)">T3 Fuerzas hidrostáticas y flotación</a><a href="tema-04.html" style="--tc:var(--c5)">T4 Cinemática y derivadas temporales</a><div class="grp">Ecuaciones generales y flujo ideal</div><a href="tema-05.html" style="--tc:var(--c6)">T5 Conservación de masa</a><a href="tema-06.html" style="--tc:var(--c7)">T6 Conservación de impulso</a><a href="tema-07.html" style="--tc:var(--c8)">T7 Conservación de energía</a><a href="tema-08.html" style="--tc:var(--c1)" class="on" aria-current="page">T8 Navier-Stokes y flujo laminar</a><a href="tema-09.html" style="--tc:var(--c2)">T9 Análisis dimensional y semejanza</a><a href="tema-10.html" style="--tc:var(--c3)">T10 Flujo ideal, Euler-Bernoulli y toberas</a><div class="grp">Practicar</div><a href="cuestiones.html" style="--tc:var(--c8)">Cuestiones de teoría respondidas</a><a href="examenes.html" style="--tc:var(--c8)">Problemas tipo resueltos</a><a href="problemas.html" style="--tc:var(--c8)">Los boletines oficiales</a><a href="laboratorio.html" style="--tc:var(--c7)">Prácticas y evaluación</a><a href="formulario.html" style="--tc:var(--c8)">Formulario</a></nav>
+<main>
+<section class="sec tema" style="--tc:var(--c1);--tcs:var(--c1s)">
+<div class="sh"><span aria-hidden="true" class="badge">8</span><div class="shx"><p class="kick">Ecuaciones generales y flujo ideal · Tema 8</p><h2 id="t8">Navier-Stokes y flujo laminar</h2><div class="tags"><span class="tag">Ecuaciones generales y flujo ideal</span><span class="tag">2.º parcial (40 %)</span></div></div></div>
+<div class="zero"><p class="ft">Desde cero</p><p><b>Objetivo:</b> conocer el origen y el significado de las ecuaciones de Navier-Stokes, resolver los flujos laminares con solución exacta (Couette y Poiseuille) y manejar el número de Reynolds y la pérdida de carga.</p><ul>
+<li>Navier-Stokes es la segunda ley de Newton escrita para una partícula fluida: \(\rho\dfrac{D\vec v}{Dt}=-\nabla p+\rho\vec g+\mu\nabla^2\vec v\). Los tres términos de la derecha son presión, gravedad y <b>viscosidad</b>.</li>
+<li>Es no lineal (por el término convectivo) y no tiene solución general: de ahí que la mecánica de fluidos avance con casos particulares, análisis dimensional y métodos numéricos.</li>
+<li>Hay <b>pocas soluciones exactas</b>, y todas con las mismas hipótesis: flujo laminar, estacionario, unidireccional y completamente desarrollado. Las dos del curso son <b>Couette</b> (arrastre entre placas) y <b>Poiseuille</b> (gradiente de presión).</li>
+<li>El <b>número de Reynolds</b> \(Re=\dfrac{\rho vD}{\mu}\) compara las fuerzas de inercia con las viscosas y decide el régimen: en tubos, laminar por debajo de 2300 y turbulento por encima de 4000.</li>
+<li>En régimen laminar, \(f=\dfrac{64}{Re}\) y la pérdida de carga es <b>proporcional al caudal</b>; en turbulento, \(f\) se lee del <b>diagrama de Moody</b> y la pérdida va casi con \(Q^2\).</li>
+<li>La <b>capa límite</b> es la zona pegada a la pared donde la viscosidad importa: fuera de ella el flujo se comporta como ideal. Si se <b>desprende</b> aparece estela y resistencia de forma.</li>
+</ul></div>
+<details class="nom"><summary><span aria-hidden="true" class="nom-ic">Aa</span>Nomenclatura del tema 8 <span class="src">8 símbolos</span></summary><div class="inner">
+<div class="tw"><table><tr><th>Símbolo</th><th>Qué significa</th><th>Unidades · ejemplo</th></tr><tr><td class="sym">Re = ρvD/μ</td><td>Número de Reynolds</td><td class="u"><2300 laminar</td></tr><tr><td class="sym">f</td><td>Factor de fricción</td><td class="u">64/Re laminar</td></tr><tr><td class="sym">h_f = f(L/D)v²/2g</td><td>Darcy-Weisbach</td><td class="u"></td></tr><tr><td class="sym">u_máx = 2ū</td><td>Poiseuille en tubo</td><td class="u"></td></tr><tr><td class="sym">Q = πR⁴Δp/8μL</td><td>Hagen-Poiseuille</td><td class="u"></td></tr><tr><td class="sym">D_h = 4A/P</td><td>Diámetro hidráulico</td><td class="u"></td></tr><tr><td class="sym">δ</td><td>Espesor de capa límite</td><td class="u">m</td></tr><tr><td class="sym">ε/D</td><td>Rugosidad relativa</td><td class="u">Moody</td></tr></table></div></div></details>
+<figure class="fig"><p class="ft">Figura interactiva - perfil de Poiseuille, Reynolds y perdida de carga</p><div data-sim="laminar"></div><figcaption>Mueve los controles y lee el recuadro: la figura calcula lo mismo que tú harías a mano en el examen.</figcaption></figure>
+<h3 id="t8-formulas">Lo que tienes que saber</h3>
+<div class="box key"><ul>
+<li>Navier-Stokes incompresible: \(\rho\left(\dfrac{\partial\vec v}{\partial t}+(\vec v\cdot\nabla)\vec v\right)=-\nabla p+\rho\vec g+\mu\nabla^2\vec v\), con \(\nabla\cdot\vec v=0\).</li>
+<li><b>Couette</b> (placa superior a velocidad \(V\), huelgo \(h\), sin gradiente): \(u(y)=V\dfrac{y}{h}\), \(\tau=\mu\dfrac{V}{h}\).</li>
+<li><b>Poiseuille</b> en tubo: \(u(r)=\dfrac{\Delta p}{4\mu L}(R^2-r^2)\), \(u_{max}=2\bar v\), \(Q=\dfrac{\pi R^4\Delta p}{8\mu L}\) (ley de Hagen-Poiseuille).</li>
+<li>Entre placas planas separadas \(h\): \(Q=\dfrac{bh^3\Delta p}{12\mu L}\), \(u_{max}=\frac32\bar v\).</li>
+<li>\(Re=\dfrac{\rho vD}{\mu}=\dfrac{vD}{\nu}\); laminar \(Re<2300\), transición, turbulento \(Re>4000\).</li>
+<li>Darcy: \(h_f=f\dfrac{L}{D}\dfrac{v^2}{2g}\); laminar \(f=\dfrac{64}{Re}\); turbulento liso (Blasius) \(f=\dfrac{0{,}316}{Re^{0{,}25}}\); general, Colebrook o Moody con \(\varepsilon/D\).</li>
+<li>Diámetro hidráulico para secciones no circulares: \(D_h=\dfrac{4A}{P_{mojado}}\).</li>
+<li>Capa límite laminar sobre placa plana: \(\delta\approx\dfrac{5x}{\sqrt{Re_x}}\); transición en \(Re_x\approx5\cdot10^5\).</li>
+</ul></div>
+<h3 id="t8-metodo">Cómo se resuelve</h3>
+<ol class="steps"><li>Calcula primero el <b>número de Reynolds</b>: decide todo lo demás.</li>
+<li>Si el problema pide un perfil, parte de Navier-Stokes y <b>tacha términos</b> justificando: estacionario, unidireccional, desarrollado (\(\partial u/\partial x=0\)), etc. Queda una ecuación diferencial ordinaria sencilla.</li>
+<li>Integra dos veces e impón las <b>condiciones de contorno</b>: velocidad nula en las paredes (condición de adherencia) o esfuerzo nulo en superficies libres.</li>
+<li>De \(u(y)\) saca lo que pidan: caudal (integrando), velocidad media, esfuerzo en la pared (\(\tau_w=\mu\,du/dy|_{pared}\)) o fuerza de arrastre.</li>
+<li>Para pérdidas en tuberías, \(Re\) ⇒ \(f\) (fórmula si es laminar, Moody si es turbulento) ⇒ \(h_f\) ⇒ Bernoulli generalizado.</li></ol>
+<div class="box trap"><h4>Trampas típicas</h4><ul>
+<li><b>Usar \(f=64/Re\) en régimen turbulento</b>: sólo vale en laminar.</li>
+<li>Confundir \(u_{max}\) con \(\bar v\): en tubo laminar \(u_{max}=2\bar v\), entre placas \(1{,}5\bar v\).</li>
+<li>Calcular \(Re\) con el radio en vez del diámetro (factor 2) o con \(\mu\) en poises.</li>
+<li>En secciones no circulares, usar la dimensión geométrica en vez del <b>diámetro hidráulico</b>.</li>
+<li>Olvidar que la ley de Poiseuille va con \(R^4\): reducir el diámetro un 20 % <b>más que duplica</b> la pérdida de carga a igual caudal.</li>
+<li>Suponer flujo desarrollado nada más entrar en el tubo: hay una longitud de entrada \(L_e\approx0{,}06\,Re\,D\) en laminar.</li>
+</ul></div>
+<h3 id="t8-problema">Problema tipo</h3>
+<div class="prob"><div class="enun"><p class="et">Enunciado</p><p>Un aceite de \(\mu=0{,}08\) Pa·s y \(\rho=900\) kg/m³ circula por una tubería horizontal de <b>D = 25 mm</b> y <b>L = 50 m</b> con un caudal de <b>0,8 L/s</b>.</p>
+<p>Calcula: a) la velocidad media y el número de Reynolds; b) el perfil de velocidad y la velocidad máxima; c) la pérdida de carga y la caída de presión; d) la potencia de bombeo necesaria.</p></div>
+<details class="paso"><summary><span class="pn">✓</span>Ver solución paso a paso</summary><div class="inner"><p><b>a) Velocidad media y Reynolds.</b></p>
+\[A=\frac{\pi\cdot0{,}025^2}{4}=4{,}909\cdot10^{-4}\ \text{m}^2;\qquad \bar v=\frac{0{,}0008}{4{,}909\cdot10^{-4}}=\mathbf{1{,}630\ m/s}\]
+\[Re=\frac{\rho\bar vD}{\mu}=\frac{900\cdot1{,}630\cdot0{,}025}{0{,}08}=\mathbf{458}\]
+<p>Muy por debajo de 2300: <b>régimen laminar</b>, así que valen las soluciones exactas.</p>
+<p><b>b) Perfil y velocidad máxima.</b> Es flujo de Poiseuille: parábola con el máximo en el eje,</p>
+\[u(r)=u_{max}\left(1-\frac{r^2}{R^2}\right),\qquad u_{max}=2\bar v=\mathbf{3{,}26\ m/s}\]
+<p><b>c) Pérdida de carga.</b> En laminar \(f=64/Re=64/458=0{,}1397\):</p>
+\[h_f=f\frac{L}{D}\frac{\bar v^2}{2g}=0{,}1397\cdot\frac{50}{0{,}025}\cdot\frac{1{,}630^2}{2\cdot9{,}81}=0{,}1397\cdot2000\cdot0{,}1354=\mathbf{37{,}8\ m}\]
+\[\Delta p=\rho gh_f=900\cdot9{,}81\cdot37{,}8=\mathbf{334\ kPa}\]
+<p>Comprobación con Hagen-Poiseuille, que debe dar lo mismo:</p>
+\[\Delta p=\frac{128\mu LQ}{\pi D^4}=\frac{128\cdot0{,}08\cdot50\cdot0{,}0008}{\pi\cdot0{,}025^4}=\frac{0{,}4096}{1{,}227\cdot10^{-6}}=334\ \text{kPa}\ \checkmark\]
+<p><b>d) Potencia.</b></p>
+\[P=\Delta p\cdot Q=334000\cdot0{,}0008=\mathbf{267\ W}\]
+<p class="muted">Observa el efecto de \(D^4\): si la tubería fuese de 30 mm en vez de 25, la caída de presión bajaría a \(334\cdot(25/30)^4=161\) kPa, menos de la mitad, y la potencia con ella. Por eso en instalaciones con aceite se sobredimensionan los diámetros.</p></div></details></div>
+<h3 id="t8-auto">Autoevaluación</h3>
+<p class="muted">Responde antes de desplegar.</p><details class="paso"><summary><span class="pn">1</span>¿Qué representa cada término de Navier-Stokes?</summary><div class="inner"><p>A la izquierda, la masa por la aceleración de la partícula (local + convectiva). A la derecha, las fuerzas: gradiente de <b>presión</b>, <b>gravedad</b> y <b>viscosidad</b> (\(\mu\nabla^2\vec v\)).</p></div></details><details class="paso"><summary><span class="pn">2</span>¿Por qué hay tan pocas soluciones exactas?</summary><div class="inner"><p>Por el término convectivo \((\vec v\cdot\nabla)\vec v\), que hace la ecuación <b>no lineal</b>. Sólo se resuelve exactamente cuando ese término se anula: flujos unidireccionales y desarrollados.</p></div></details><details class="paso"><summary><span class="pn">3</span>¿Qué compara el número de Reynolds?</summary><div class="inner"><p>Las fuerzas de <b>inercia</b> frente a las <b>viscosas</b>. Con Re bajo mandan las viscosas (flujo ordenado, laminar); con Re alto, la inercia (turbulento).</p></div></details><details class="paso"><summary><span class="pn">4</span>En un tubo laminar, ¿qué relación hay entre velocidad máxima y media?</summary><div class="inner"><p>\(u_{max}=2\bar v\). Entre placas planas paralelas, \(u_{max}=1{,}5\bar v\). El perfil es parabólico en ambos casos.</p></div></details><details class="paso"><summary><span class="pn">5</span>Si se reduce el diámetro un 20 % manteniendo el caudal, ¿cuánto sube la pérdida en laminar?</summary><div class="inner"><p>Como \(\Delta p\propto1/D^4\), sube un factor \((1/0{,}8)^4=2{,}44\): más del doble.</p></div></details><details class="paso"><summary><span class="pn">6</span>¿Qué es el diámetro hidráulico y para qué sirve?</summary><div class="inner"><p>\(D_h=4A/P_{mojado}\). Permite usar las correlaciones de tubo circular (Re, Moody) en conductos rectangulares, anillos o canales.</p></div></details><details class="paso"><summary><span class="pn">7</span>¿Qué es el desprendimiento de la capa límite?</summary><div class="inner"><p>Cuando el gradiente de presión adverso frena tanto el fluido pegado a la pared que éste se invierte y la capa se separa, formando estela. Multiplica la resistencia y es lo que se intenta evitar con perfiles aerodinámicos.</p></div></details>
+</section>
+<nav class="pager" aria-label="Páginas"><a href="tema-07.html"><small>← Anterior</small>T7 · Conservación de energía</a><a class="nx" href="tema-09.html"><small>Siguiente →</small>T9 · Análisis dimensional y semejanza</a></nav>
+<p class="inicio" style="margin:36px 0 8px;text-align:center;font-size:13px;color:var(--muted)">Guía no oficial de Mecánica de Fluidos (UPCT, GIEyA) · Datos tomados del curso <time datetime="2022-09">2022/23</time> (guía docente, apuntes de los 14 temas, formularios y colecciones de problemas resueltos) · página creada en noviembre de 2026</p>
+</main>
+</div>
+<script src="app.js"></script>
+<script src="sims.js"></script>
+</body>
+</html>

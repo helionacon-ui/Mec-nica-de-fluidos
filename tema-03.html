@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>T3 Fuerzas hidrostáticas y flotación · Mecánica de Fluidos · Guía para aprobar</title>
+<meta name="description" content="Mecánica de Fluidos (UPCT, GIEyA): tema 3, Fuerzas hidrostáticas y flotación">
+<meta name="theme-color" content="#1b7a8c">
+<link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<link rel="stylesheet" href="style.css">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<div class="hub-bar" style="max-width:1180px;margin:0 auto;padding:10px 16px 0"><a href="https://helionacon-ui.github.io/GIEIA-UPCT/" style="display:inline-flex;align-items:center;gap:6px;font:600 13.5px/1 system-ui,sans-serif;padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);text-decoration:none">← Todas las guías GIEyA</a><p class="fecha" style="margin:6px 0 0;max-width:none;font:13px/1.45 system-ui,sans-serif;color:var(--muted)">Datos tomados del curso <time datetime="2022-09">2022/23</time> (guía docente, apuntes de los 14 temas, formularios y colecciones de problemas resueltos) · página creada en noviembre de 2026</p></div>
+<div class="crumb"><a href="index.html">Mecánica de Fluidos</a><span class="sep">›</span><span>Estática y cinemática</span><span class="sep">›</span><span>T3 · Fuerzas hidrostáticas y flotación</span></div><a href="#top" class="totop" id="totop" aria-label="Volver arriba">↑</a>
+<div class="wrap" id="top">
+<nav aria-label="Índice" class="toc"><a href="index.html" style="--tc:var(--c0)">Portada</a><div class="grp">Empezar</div><a href="index.html#cero" style="--tc:var(--c0)">Empieza aquí desde cero</a><a href="plan.html" style="--tc:var(--c0)">Cómo es la evaluación</a><a href="index.html#progreso" style="--tc:var(--c0)">Tu progreso</a><div class="grp">Estática y cinemática</div><a href="tema-01.html" style="--tc:var(--c2)">T1 Naturaleza y propiedades de los fluidos</a><a href="tema-02.html" style="--tc:var(--c3)">T2 Fluidostática: presión y manometría</a><a href="tema-03.html" style="--tc:var(--c4)" class="on" aria-current="page">T3 Fuerzas hidrostáticas y flotación</a><a href="tema-04.html" style="--tc:var(--c5)">T4 Cinemática y derivadas temporales</a><div class="grp">Ecuaciones generales y flujo ideal</div><a href="tema-05.html" style="--tc:var(--c6)">T5 Conservación de masa</a><a href="tema-06.html" style="--tc:var(--c7)">T6 Conservación de impulso</a><a href="tema-07.html" style="--tc:var(--c8)">T7 Conservación de energía</a><a href="tema-08.html" style="--tc:var(--c1)">T8 Navier-Stokes y flujo laminar</a><a href="tema-09.html" style="--tc:var(--c2)">T9 Análisis dimensional y semejanza</a><a href="tema-10.html" style="--tc:var(--c3)">T10 Flujo ideal, Euler-Bernoulli y toberas</a><div class="grp">Practicar</div><a href="cuestiones.html" style="--tc:var(--c8)">Cuestiones de teoría respondidas</a><a href="examenes.html" style="--tc:var(--c8)">Problemas tipo resueltos</a><a href="problemas.html" style="--tc:var(--c8)">Los boletines oficiales</a><a href="laboratorio.html" style="--tc:var(--c7)">Prácticas y evaluación</a><a href="formulario.html" style="--tc:var(--c8)">Formulario</a></nav>
+<main>
+<section class="sec tema" style="--tc:var(--c4);--tcs:var(--c4s)">
+<div class="sh"><span aria-hidden="true" class="badge">3</span><div class="shx"><p class="kick">Estática y cinemática · Tema 3</p><h2 id="t3">Fuerzas hidrostáticas y flotación</h2><div class="tags"><span class="tag">Estática y cinemática</span><span class="tag">1.er parcial (40 %)</span></div></div></div>
+<div class="zero"><p class="ft">Desde cero</p><p><b>Objetivo:</b> calcular la fuerza que un fluido en reposo ejerce sobre una superficie plana o curva y dónde se aplica, y analizar la flotación y la estabilidad de un cuerpo flotante.</p><ul>
+<li>Sobre una <b>superficie plana sumergida</b>, la resultante vale \(F=p_G A\) (la presión <b>en el centro de gravedad</b> por el área), pero <b>no se aplica en G</b>: se aplica más abajo, en el <b>centro de presiones</b>.</li>
+<li>El desplazamiento del centro de presiones es \(y_{cp}-y_G=\dfrac{I_G}{y_GA}\): tanto menor cuanto más hundida esté la superficie (la distribución de presiones se vuelve más uniforme).</li>
+<li>En una <b>superficie curva</b> se descompone: la componente <b>horizontal</b> es la fuerza sobre la proyección vertical; la <b>vertical</b> es el <b>peso del volumen de líquido</b> que hay encima (real o imaginario).</li>
+<li><b>Arquímedes</b>: el empuje es el peso del fluido desplazado, \(E=\rho g V_{sumergido}\), aplicado en el <b>centro de carena</b> (centro de gravedad del volumen desplazado).</li>
+<li>La <b>estabilidad</b> de un cuerpo flotante la decide el <b>metacentro</b>: si \(\overline{GM}=\dfrac{I_0}{V}-\overline{GB}>0\), es estable. Un cuerpo puede flotar con el centro de gravedad por encima del de carena y aun así ser estable.</li>
+</ul></div>
+<details class="nom"><summary><span aria-hidden="true" class="nom-ic">Aa</span>Nomenclatura del tema 3 <span class="src">8 símbolos</span></summary><div class="inner">
+<div class="tw"><table><tr><th>Símbolo</th><th>Qué significa</th><th>Unidades · ejemplo</th></tr><tr><td class="sym">F = ρ g h_G A</td><td>Resultante sobre plano</td><td class="u">N</td></tr><tr><td class="sym">h_G</td><td>Profundidad del centroide</td><td class="u">m</td></tr><tr><td class="sym">y_cp</td><td>Centro de presiones</td><td class="u">sobre el plano</td></tr><tr><td class="sym">I_G</td><td>Momento de inercia</td><td class="u">bh³/12</td></tr><tr><td class="sym">F_H</td><td>Componente horizontal</td><td class="u">proyección vertical</td></tr><tr><td class="sym">F_V</td><td>Componente vertical</td><td class="u">peso del volumen</td></tr><tr><td class="sym">E = ρgV</td><td>Empuje de Arquímedes</td><td class="u">N</td></tr><tr><td class="sym">GM</td><td>Altura metacéntrica</td><td class="u">> 0 estable</td></tr></table></div></div></details>
+<figure class="fig"><p class="ft">Figura interactiva - fuerza sobre una compuerta y centro de presiones</p><div data-sim="compuerta"></div><figcaption>Mueve los controles y lee el recuadro: la figura calcula lo mismo que tú harías a mano en el examen.</figcaption></figure>
+<h3 id="t3-formulas">Lo que tienes que saber</h3>
+<div class="box key"><ul>
+<li>Superficie plana: \(F=p_GA=\rho g\,h_G\,A\) (con \(h_G\) la profundidad del centroide).</li>
+<li>Centro de presiones: \(y_{cp}=y_G+\dfrac{I_G}{y_GA}\), con \(y\) medido <b>sobre el plano de la compuerta</b> desde la superficie libre; \(x_{cp}=x_G+\dfrac{I_{xy}}{y_GA}\).</li>
+<li>Rectángulo de base \(b\) y altura \(a\): \(I_G=\dfrac{ba^3}{12}\); círculo de radio \(R\): \(I_G=\dfrac{\pi R^4}{4}\).</li>
+<li>Compuerta rectangular vertical con el borde superior en la superficie: \(F=\dfrac{\rho gh^2b}{2}\) aplicada a \(2h/3\) de profundidad.</li>
+<li>Superficie curva: \(F_H=\rho g h_G A_{proy}\), \(F_V=\rho g V_{encima}\) (hacia arriba si el líquido está debajo).</li>
+<li>Flotación: \(E=\rho_fgV_{sum}\); equilibrio \(E=W\) ⇒ \(\dfrac{V_{sum}}{V_{total}}=\dfrac{\rho_{cuerpo}}{\rho_{fluido}}\).</li>
+<li>Estabilidad: \(\overline{GM}=\overline{BM}-\overline{BG}=\dfrac{I_0}{V_{sum}}-\overline{BG}\); estable si \(\overline{GM}>0\). Periodo de balanceo \(T=2\pi\sqrt{\dfrac{k^2}{g\overline{GM}}}\).</li>
+</ul></div>
+<h3 id="t3-metodo">Cómo se resuelve</h3>
+<ol class="steps"><li>Dibuja la <b>distribución de presiones</b> sobre la superficie: triángulo si empieza en la superficie libre, trapecio si está hundida.</li>
+<li>Calcula \(h_G\) (profundidad del centroide) y obtén \(F=\rho g h_GA\).</li>
+<li>Localiza el <b>centro de presiones</b> con \(y_{cp}=y_G+I_G/(y_GA)\). Ojo: \(y\) se mide <b>a lo largo de la compuerta</b>, no en vertical, si está inclinada.</li>
+<li>Si piden el momento respecto a un eje (compuerta con bisagra), multiplica \(F\) por la distancia del <b>centro de presiones</b> al eje.</li>
+<li>Para superficies curvas, calcula \(F_H\) y \(F_V\) por separado y compón; la resultante de una superficie cilíndrica <b>pasa por el centro</b> del cilindro.</li>
+<li>En flotación, plantea \(E=W\) y, si piden estabilidad, calcula \(I_0\) de la <b>sección de flotación</b>.</li></ol>
+<div class="box trap"><h4>Trampas típicas</h4><ul>
+<li><b>Aplicar la resultante en el centro de gravedad</b>: se aplica en el centro de presiones, siempre más abajo.</li>
+<li>Usar presión absoluta: para fuerzas sobre compuertas se trabaja en <b>manométrica</b>, porque la atmósfera empuja también por el otro lado.</li>
+<li>Confundir \(y\) (distancia sobre el plano inclinado) con \(h\) (profundidad vertical). Se relacionan por \(h=y\operatorname{sen}\alpha\).</li>
+<li>En superficies curvas, olvidar que el <b>volumen puede ser imaginario</b> (líquido debajo) y que entonces la vertical va hacia arriba.</li>
+<li>Calcular la estabilidad con la inercia del cuerpo en vez de la de la <b>sección de flotación</b>.</li>
+</ul></div>
+<h3 id="t3-problema">Problema tipo</h3>
+<div class="prob"><div class="enun"><p class="et">Enunciado</p><p><b>(Tipo del problema 4.6.)</b> Una <b>compuerta plana rectangular</b> de 2 m de ancho cierra un canal. Está articulada en su <b>eje superior</b>, situado en la superficie libre del agua, y tiene 3 m de altura, quedando completamente sumergida en posición vertical.</p>
+<p>Calcula la fuerza resultante del agua, la profundidad del centro de presiones y la fuerza horizontal que hay que aplicar en el <b>borde inferior</b> para mantenerla cerrada.</p></div>
+<details class="paso"><summary><span class="pn">✓</span>Ver solución paso a paso</summary><div class="inner"><p><b>Resultante.</b> El centroide está a \(h_G=1{,}5\) m de profundidad y \(A=3\cdot2=6\) m²:</p>
+\[F=\rho g h_GA=1000\cdot9{,}81\cdot1{,}5\cdot6=\mathbf{88{,}29\ kN}\]
+<p><b>Centro de presiones.</b> Para un rectángulo, \(I_G=\dfrac{ba^3}{12}=\dfrac{2\cdot3^3}{12}=4{,}5\) m⁴:</p>
+\[y_{cp}=y_G+\frac{I_G}{y_GA}=1{,}5+\frac{4{,}5}{1{,}5\cdot6}=1{,}5+0{,}5=\mathbf{2{,}0\ m}\]
+<p>es decir, a <b>dos tercios</b> de la altura desde la superficie, como corresponde a una distribución triangular de presiones.</p>
+<p><b>Fuerza de cierre.</b> Tomando momentos respecto a la bisagra superior:</p>
+\[F_{cierre}\cdot3=F\cdot y_{cp}=88290\cdot2{,}0\quad\Rightarrow\quad F_{cierre}=\mathbf{58{,}86\ kN}\]
+<p><b>Comprobación rápida.</b> Para la compuerta rectangular con el borde superior en la superficie se puede ir directo: \(F=\frac{\rho gh^2b}{2}=\frac{1000\cdot9{,}81\cdot9\cdot2}{2}=88{,}29\) kN aplicada a \(2h/3=2\) m ✓. Merece la pena memorizar este caso, porque sale en casi todos los exámenes.</p></div></details></div>
+<h3 id="t3-auto">Autoevaluación</h3>
+<p class="muted">Responde antes de desplegar.</p><details class="paso"><summary><span class="pn">1</span>¿Por qué el centro de presiones está por debajo del centro de gravedad?</summary><div class="inner"><p>Porque la presión crece con la profundidad, de modo que la parte baja de la superficie aporta más fuerza. La diferencia es \(I_G/(y_GA)\) y tiende a cero cuando la superficie está muy hundida (la presión se vuelve casi uniforme).</p></div></details><details class="paso"><summary><span class="pn">2</span>¿Cómo se calcula la componente vertical de la fuerza sobre una superficie curva?</summary><div class="inner"><p>Es el <b>peso del volumen de líquido</b> comprendido entre la superficie y la superficie libre. Si el líquido está por debajo de la superficie, ese volumen es imaginario y la fuerza apunta hacia arriba.</p></div></details><details class="paso"><summary><span class="pn">3</span>Un bloque de hielo (d = 0,92) flota en agua. ¿Qué fracción sobresale?</summary><div class="inner"><p>\(V_{sum}/V=\rho_{hielo}/\rho_{agua}=0{,}92\), así que sobresale el <b>8 %</b>. En agua de mar (d = 1,025) sobresaldría el 10 %.</p></div></details><details class="paso"><summary><span class="pn">4</span>¿Qué es el metacentro y para qué sirve?</summary><div class="inner"><p>El punto donde la línea de acción del empuje corta al eje de simetría cuando el cuerpo se inclina ligeramente. Si queda <b>por encima del centro de gravedad</b> (\(\overline{GM}>0\)) el par es restaurador y la flotación es estable.</p></div></details><details class="paso"><summary><span class="pn">5</span>¿Por qué un barco con el centro de gravedad alto puede ser estable?</summary><div class="inner"><p>Porque la estabilidad no la decide la posición de G frente a la de B, sino \(\overline{GM}=I_0/V-\overline{BG}\): una sección de flotación ancha da un \(I_0\) grande, que compensa un G alto. Por eso los catamaranes son tan estables.</p></div></details><details class="paso"><summary><span class="pn">6</span>¿Dónde se aplica la resultante sobre una compuerta cilíndrica?</summary><div class="inner"><p>Pasa por el <b>centro del cilindro</b>, porque todas las presiones son radiales y sus líneas de acción concurren allí. Es un truco que ahorra calcular momentos.</p></div></details>
+</section>
+<nav class="pager" aria-label="Páginas"><a href="tema-02.html"><small>← Anterior</small>T2 · Fluidostática: presión y manometría</a><a class="nx" href="tema-04.html"><small>Siguiente →</small>T4 · Cinemática y derivadas temporales</a></nav>
+<p class="inicio" style="margin:36px 0 8px;text-align:center;font-size:13px;color:var(--muted)">Guía no oficial de Mecánica de Fluidos (UPCT, GIEyA) · Datos tomados del curso <time datetime="2022-09">2022/23</time> (guía docente, apuntes de los 14 temas, formularios y colecciones de problemas resueltos) · página creada en noviembre de 2026</p>
+</main>
+</div>
+<script src="app.js"></script>
+<script src="sims.js"></script>
+</body>
+</html>
