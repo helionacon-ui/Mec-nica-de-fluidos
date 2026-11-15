@@ -655,5 +655,29 @@ SIMS.torricelliPaso=el=>build(el,{w:660,h:380,
   a.html(`<div>${T[p]}</div>`);
  }});
 
+
+
+
+
+
+/* ---- paso a paso declarativo ---- */
+SIMS.__paso=(el,D)=>build(el,{w:D.w||660,h:D.h||340,
+ sliders:[{k:'paso',v:0,min:0,max:D.steps.length,step:1,l:'paso de la resolución (0 = enunciado)',u:''}],
+ draw(a){a.clear();const g=a.g,p=a.st.paso;
+  const it=(x,col)=>{const k=x[0];
+   if(k==='t')a.txt(x[1],x[2],x[3],col,x[4]||13,x[5]||'left');
+   else if(k==='l')a.line(x[1],x[2],x[3],x[4],col,x[5]||1.5,x[6]);
+   else if(k==='a')a.arrow(x[1],x[2],x[3],x[4],col,x[5]);
+   else if(k==='c')a.circ(x[1],x[2],x[3],col,!!x[4]);
+   else if(k==='r'){g.strokeStyle=col;g.lineWidth=1.8;if(x[5]){g.fillStyle=col;g.globalAlpha=.18;g.fillRect(x[1],x[2],x[3],x[4]);g.globalAlpha=1;}g.strokeRect(x[1],x[2],x[3],x[4]);}
+   else if(k==='p'){g.strokeStyle=col;g.lineWidth=x[2]||2;g.beginPath();x[1].forEach((q,i)=>i?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1]));g.stroke();}};
+  (D.base||[]).forEach(x=>it(x,C.muted));
+  D.steps.forEach((s,i)=>{if(i+1>p)return;const cur=(i+1===p);(s.add||[]).forEach(x=>it(x,cur?C.d:C.text));if(cur)(s.now||[]).forEach(x=>it(x,C.d));});
+  a.html('<div>'+(p===0?D.q:D.steps[p-1].text)+'</div>');}});
+/* ---- fin paso a paso declarativo ---- */
+
+/* ---- paso2 manometroPaso ---- */
+SIMS.manometroPaso=el=>SIMS.__paso(el,{"w":660,"h":270,"q":"Un manómetro diferencial de mercurio marca Δh = 0,30 m entre dos puntos de una tubería de agua. ¿Qué diferencia de presión hay? Sube el paso.","base":[["t","Agua en la tubería · manómetro en U con mercurio · Δh = 0,30 m",30,26,13,"left"],["r",330,70,34,170,0],["r",420,70,34,170,0],["l",330,240,454,240,2]],"steps":[{"text":"Un manómetro en U con <b>mercurio</b> (ρ = 13600 kg/m³) conecta dos puntos de una tubería con <b>agua</b> (ρ = 1000 kg/m³). El mercurio queda <b>0,30 m</b> más alto en la rama de menor presión. ¿Cuánto vale P₁ − P₂?","add":[]},{"text":"Se recorre el manómetro desde el punto 1 al 2 sumando y restando <b>ρgh</b> por cada columna: baja el agua, sube el mercurio, baja otra columna de agua… Lo que importa es la diferencia de alturas Δh = 0,30 m.","add":[["r",331,160,32,80,1],["r",421,130,32,110,1],["l",300,160,454,160,1,[4,4]],["l",330,130,484,130,1,[4,4]]]},{"text":"En la sección de la interfaz las dos presiones coinciden. Resulta <b>P₁ − P₂ = (ρ<sub>Hg</sub> − ρ<sub>agua</sub>)·g·Δh</b>: el agua que llena las ramas «resta» su propio peso.","add":[["t","P₁ − P₂ = (ρ_Hg − ρ_agua) g Δh",40,70,15,"left"]]},{"text":"Se sustituye: (13600 − 1000) = <b>12600 kg/m³</b>; 12600 · 9,81 = 123606 N/m³ (peso específico efectivo).","add":[["t","12600 · 9,81 = 123 606 N/m³",40,110,15,"left"]]},{"text":"<b>P₁ − P₂ = 123606 · 0,30 = 37082 Pa ≈ 37,1 kPa</b>. Equivale a una columna de agua de 3,78 m.","add":[["t","P₁ − P₂ = 37082 Pa ≈ 37,1 kPa",40,150,16,"left"]]},{"text":"Error típico: usar solo ρ<sub>Hg</sub>·g·Δh = 40 kPa e ignorar el agua de las ramas; da un valor <b>7,9 % mayor</b>. Con gases en vez de agua sí se puede despreciar su peso.","add":[["t","sin restar el agua: 40 kPa (error)",40,190,14,"left"]]}]});
+/* ---- fin paso2 manometroPaso ---- */
 document.querySelectorAll('[data-sim]').forEach(el=>{const f=SIMS[el.dataset.sim];if(f)f(el);});
 })();
