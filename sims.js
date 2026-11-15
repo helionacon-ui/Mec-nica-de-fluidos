@@ -599,5 +599,61 @@ SIMS.tobera=el=>build(el,{w:680,h:430,
   ${cd?'<br>Con esta relación de áreas, la salida admite M = '+N3(Mb)+' (subsónica, p₀ = '+N1(pbloq)+' kPa) o M = '+N3(Ms)+' (supersónica adaptada, p₀ = '+N1(padap)+' kPa). Entre ambas presiones aparece una <b>onda de choque</b> dentro del divergente.':''}
   <span class="hint">Prueba a bajar p_b por debajo del valor de bloqueo: la curva de presión en la garganta se queda clavada en 0,528·p₀ y el gasto no se mueve. Ése es el resultado que más se pregunta del tema.</span>`);}});
 
+/* ---- Vaciado de un depósito (Torricelli) con Bernoulli, paso a paso: v = √(2gh), Q = A·v ---- */
+SIMS.torricelliPaso=el=>build(el,{w:660,h:380,
+ sliders:[{k:'paso',v:0,min:0,max:6,step:1,l:'paso de la resolución (0 = problema)',u:''}],
+ draw(a){a.clear();const p=a.st.paso;const g=a.g;
+  const xL=60,xR=300,ys=100,yb=300;           // depósito: superficie libre y fondo (50 px por metro)
+  const xo=xR, yo=yb;                          // orificio en la pared lateral, a 4 m de la superficie
+  // agua
+  g.save();g.globalAlpha=0.25;g.fillStyle=C.f;g.fillRect(xL,ys,xR-xL,yb-ys);g.restore();
+  // paredes y fondo
+  g.lineWidth=2;g.strokeStyle=C.text;
+  g.beginPath();g.moveTo(xL,70);g.lineTo(xL,yb);g.lineTo(xR,yb);g.lineTo(xR,70);g.stroke();
+  g.strokeStyle=C.f;g.beginPath();g.moveTo(xL,ys);g.lineTo(xR,ys);g.stroke();
+  // cota de altura h
+  a.line(38,ys,38,yb,C.muted,1);
+  a.line(34,ys,42,ys,C.muted,1);a.line(34,yb,42,yb,C.muted,1);
+  a.txt('h = 4 m',30,(ys+yb)/2,C.muted,12,'right');
+  // puntos de Bernoulli
+  a.circ(250,ys,4,C.f,true);a.txt('1',250,ys-10,C.f,13,'center');
+  a.circ(xo,yo,4,C.d,true);a.txt('2',xo-10,yo-10,C.d,13,'center');
+  // chorro de salida (trayectoria ilustrativa)
+  if(p>=5){
+    g.strokeStyle=C.d;g.lineWidth=2.4;g.beginPath();
+    for(let s=0;s<=1.0001;s+=0.02){const x=xo+s*150,y=yo+70*s*s;s===0?g.moveTo(x,y):g.lineTo(x,y);}
+    g.stroke();
+  }
+  if(p>=3)a.arrow(xo+6,yo-14,xo+46,yo-14,C.c,2.6);
+  if(p>=3)a.txt('v₂ ≈ 8,86 m/s',xo+26,yo-22,C.c,12,'center');
+  // texto de cálculo a la derecha
+  a.txt('Datos: h = 4 m, d = 2 cm, p₁ = p₂ = atm',340,50,C.muted,12,'left');
+  if(p>=2){
+    a.txt('Bernoulli entre 1 (superficie) y 2 (orificio):',340,100,C.text,13,'left');
+    a.txt('p/ρg + v²/2g + z  igual en 1 y en 2',340,122,C.text,13,'left');
+    a.txt('v₁ ≈ 0 (superficie muy grande)',340,144,C.text,13,'left');
+  }
+  if(p>=3){
+    a.txt('v₂ = √(2gh)',340,190,C.c,14,'left');
+    a.txt('= √(2 · 9,81 · 4) = 8,86 m/s',340,212,C.c,13,'left');
+  }
+  if(p>=4)a.txt('A = π d²/4 = 3,14 · 10⁻⁴ m²',340,258,C.text,13,'left');
+  if(p>=5){
+    a.txt('Q = A · v₂ = 2,78 · 10⁻³ m³/s',340,300,C.a,14,'left');
+    a.txt('= 2,78 L/s',340,322,C.a,13,'left');
+  }
+  if(p>=6)a.txt('Cota superior: el caudal real es menor',340,360,C.muted,12,'left');
+  const T=[
+   'Depósito abierto con agua hasta h = 4 m y un orificio de diámetro d = 2 cm en la pared, cerca del fondo. Se pide la velocidad de salida y el caudal, suponiendo flujo ideal (sin pérdidas).',
+   'Se aplica Bernoulli entre un punto 1 de la superficie libre y un punto 2 a la salida del orificio. Los dos están a presión atmosférica, y en 1 la velocidad es casi nula porque la superficie es muy grande.',
+   'Con p₁ = p₂ y v₁ ≈ 0, la ecuación queda h = v₂²/2g, porque la diferencia de cota entre 1 y 2 es la altura del agua. Lo que cambia es la energía potencial en energía cinética.',
+   'Despejando: v₂ = √(2gh) = √(2 · 9,81 · 4) = 8,86 m/s. La velocidad no depende de la densidad ni del diámetro del orificio, solo de la altura: es la misma que alcanzaría un cuerpo que cae desde h.',
+   'Área de salida: A = π d²/4 = π · (0,02 m)²/4 = 3,14 · 10⁻⁴ m². El diámetro entra al cuadrado, así que el caudal depende de él.',
+   'Caudal: Q = A · v₂ = 3,14 · 10⁻⁴ · 8,86 = 2,78 · 10⁻³ m³/s, es decir, 2,78 litros por segundo.',
+   'Comprobación de unidades: √(m/s²·m) = m/s ✓. El resultado es una cota superior: en la práctica, la vena se contrae a la salida y el caudal real es algo menor (un coeficiente de descarga típico ronda 0,6).'
+  ];
+  a.html(`<div>${T[p]}</div>`);
+ }});
+
 document.querySelectorAll('[data-sim]').forEach(el=>{const f=SIMS[el.dataset.sim];if(f)f(el);});
 })();
