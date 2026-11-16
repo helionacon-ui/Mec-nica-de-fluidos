@@ -17,24 +17,64 @@
 <style id="lectura">
 @media screen{
 :root{--body:"Atkinson Hyperlegible Next","Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,sans-serif}
-body{font-family:var(--body);font-size:20.5px;line-height:2.1;letter-spacing:.022em;word-spacing:.09em}
-p{margin:0 0 1.75em}
-li{margin:.8em 0}
-p,li{max-width:62ch}
+body{font-family:var(--body);font-size:20px;line-height:1.95;letter-spacing:.014em;word-spacing:.05em}
+p{margin:0 0 1.5em;max-width:64ch;hyphens:auto;-webkit-hyphens:auto}
+li{margin:.72em 0;max-width:64ch}
 .box p:last-child,.box ul:last-child,.box ol:last-child{margin-bottom:0}
-h2{margin-top:92px;margin-bottom:24px;line-height:1.3}
-h3{font-size:24px;margin:58px 0 18px;line-height:1.35}
-h4{margin-top:34px;margin-bottom:10px}
-.box{padding:24px 30px;margin:32px 0}
-table{font-size:18px;line-height:1.75}
-td,th{padding-top:.85em;padding-bottom:.85em}
-figure.fig figcaption{font-size:17px;line-height:1.8;margin-top:12px}
+h2{margin-top:92px;margin-bottom:22px;line-height:1.25}
+h3{font-size:25px;margin:66px 0 20px;line-height:1.3}
+h4{margin:38px 0 12px;line-height:1.4}
+/* ---- entradilla con capitular ---- */
+.zero .lede{font-size:1.05em;line-height:1.86;text-align:left}
+.zero .lede::first-letter{float:left;font-size:3.05em;line-height:.84;font-weight:700;padding:.06em .14em 0 0;color:var(--tc,var(--accent))}
+/* ---- sumario del tema ---- */
+p.obj{max-width:none;text-align:left;margin:0 0 1.7em;padding:14px 20px;border-radius:10px;
+ background:color-mix(in srgb,var(--surface) 62%,transparent);
+ border-left:3px solid var(--tc,var(--accent));font-size:.95em;line-height:1.75}
+p.obj>b:first-child{display:block;font:700 11.5px/1.7 var(--mono,monospace);letter-spacing:.1em;
+ text-transform:uppercase;color:var(--tc,var(--accent))}
+/* ---- términos con entrada, al modo de un manual ---- */
+p.run{margin:0 0 1.38em}
+p.run>b:first-child{display:block;font:700 12px/1.7 var(--mono,monospace);letter-spacing:.09em;
+ text-transform:uppercase;color:var(--tc,var(--accent))}
+/* ---- rótulos internos ---- */
+.zero>.ft{font:700 11.5px/1.6 var(--mono,monospace);letter-spacing:.1em;text-transform:uppercase}
+.zero>.ft:not(:first-child){margin-top:2em;font-size:12.5px;color:var(--fg);opacity:.72}
+/* ---- desarrollo teórico ---- */
+.deep h4{position:relative;padding-left:2.35em;font-size:1.03em}
+.deep h4 .hn{position:absolute;left:0;top:.06em;font:700 .84em/1.7 var(--mono,monospace);
+ color:var(--tc,var(--accent));opacity:.8}
+.deep>h4:not(:first-child){border-top:1px solid var(--line);padding-top:30px;margin-top:42px}
+.eqd{margin:1.65em 0;text-align:center;overflow-x:auto;overflow-y:hidden}
+/* ---- notas al margen, sin duplicar el rótulo ---- */
+.box.deepnote{padding:15px 20px;margin:1.5em 0;border-radius:0 10px 10px 0;
+ background:color-mix(in srgb,var(--surface) 76%,transparent)}
+.box.key.deepnote::before,.box.trap.deepnote::before{content:none}
+.box.deepnote>b:first-child{display:block;font:700 11.5px/1.7 var(--mono,monospace);
+ letter-spacing:.1em;text-transform:uppercase;color:var(--tc,var(--accent))}
+.box.trap.deepnote>b:first-child{color:var(--warn)}
+/* ---- resto ---- */
+.box{padding:22px 28px;margin:30px 0}
+table{font-size:18px;line-height:1.7}
+td,th{padding-top:.8em;padding-bottom:.8em}
+figure.fig figcaption{font-size:17px;line-height:1.78;margin-top:12px}
 figure.fig{margin-block:34px}
-.lede{line-height:1.85}
 .toc a{font-size:15.5px;padding:8px 0 8px 10px}
 svg,svg text,canvas,.katex,mjx-container{letter-spacing:normal;word-spacing:normal}
+mjx-container[display]{margin:0!important}
 details>summary{line-height:1.7;padding-block:.5em}
-@media (max-width:600px){body{font-size:19px;line-height:2}}
+.enun p,.inner p{text-align:left}
+@media (min-width:1040px){
+p,li{text-align:justify}
+.zero .lede,.enun p,.inner p,figcaption,.ft{text-align:left}
+}
+@media (max-width:600px){
+body{font-size:18.5px;line-height:1.9}
+p{text-align:left}
+.zero .lede::first-letter{font-size:2.6em}
+.deep h4{padding-left:0}
+.deep h4 .hn{position:static;margin-right:.5em}
+}
 }
 </style>
 </head>
@@ -46,7 +86,7 @@ details>summary{line-height:1.7;padding-block:.5em}
 <main>
 <section class="sec tema" style="--tc:var(--c1);--tcs:var(--c1s)">
 <div class="sh"><span aria-hidden="true" class="badge">8</span><div class="shx"><p class="kick">Ecuaciones generales y flujo ideal · Tema 8</p><h2 id="t8">Navier-Stokes y flujo laminar</h2><div class="tags"><span class="tag">Ecuaciones generales y flujo ideal</span><span class="tag">2.º parcial (40 %)</span></div></div></div>
-<div class="zero"><p class="ft">Desde cero</p><p><b>Objetivo:</b> conocer el origen y el significado de las ecuaciones de Navier-Stokes, resolver los flujos laminares con solución exacta (Couette y Poiseuille) y manejar el número de Reynolds y la pérdida de carga.</p><ul>
+<div class="zero"><p class="ft">Desde cero</p><p class="obj"><b>Objetivo:</b> conocer el origen y el significado de las ecuaciones de Navier-Stokes, resolver los flujos laminares con solución exacta (Couette y Poiseuille) y manejar el número de Reynolds y la pérdida de carga.</p><ul>
 <li>Navier-Stokes es la segunda ley de Newton escrita para una partícula fluida: \(\rho\dfrac{D\vec v}{Dt}=-\nabla p+\rho\vec g+\mu\nabla^2\vec v\). Los tres términos de la derecha son presión, gravedad y <b>viscosidad</b>.</li>
 <li>Es no lineal (por el término convectivo) y no tiene solución general: de ahí que la mecánica de fluidos avance con casos particulares, análisis dimensional y métodos numéricos.</li>
 <li>Hay <b>pocas soluciones exactas</b>, y todas con las mismas hipótesis: flujo laminar, estacionario, unidireccional y completamente desarrollado. Las dos del curso son <b>Couette</b> (arrastre entre placas) y <b>Poiseuille</b> (gradiente de presión).</li>
@@ -57,20 +97,20 @@ details>summary{line-height:1.7;padding-block:.5em}
 <!--ill--><div class="ill-wrap"><h3 class="ill-h" style="margin:22px 0 4px">En imágenes</h3><figure class="ill"><div class="ill-t">El perfil parabólico del flujo laminar en un tubo</div><svg viewBox="0 0 560 262" role="img" aria-label="Perfil de Poiseuille" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,Segoe UI,sans-serif"><line x1="30" y1="70" x2="250" y2="70" stroke="var(--fg)" stroke-width="3" opacity="1" stroke-linecap="round"/><line x1="30" y1="190" x2="250" y2="190" stroke="var(--fg)" stroke-width="3" opacity="1" stroke-linecap="round"/><polygon points="40,70 40,70 46.2,72 52.2,74 58,76 63.6,78 69,80 74.2,82 79.2,84 83.9,86 88.5,88 92.8,90 96.9,92 100.8,94 104.5,96 108,98 111.2,100 114.3,102 117.2,104 119.8,106 122.2,108 124.4,110 126.5,112 128.2,114 129.8,116 131.2,118 132.4,120 133.3,122 134.1,124 134.6,126 134.9,128 135,130 134.9,132 134.6,134 134.1,136 133.3,138 132.4,140 131.2,142 129.8,144 128.2,146 126.5,148 124.4,150 122.2,152 119.8,154 117.2,156 114.3,158 111.2,160 108,162 104.5,164 100.8,166 96.9,168 92.8,170 88.5,172 83.9,174 79.2,176 74.2,178 69,180 63.6,182 58,184 52.2,186 46.2,188 40,190 40,190" fill="var(--tc,var(--accent))" stroke="var(--tc,var(--accent))" stroke-width="2.6" opacity="0.14" stroke-linejoin="round" stroke-linecap="round"/><line x1="40" y1="90" x2="87.4" y2="90" stroke="var(--c5,#c43d63)" stroke-width="1.6" opacity="1" stroke-linecap="round"/><polygon points="92.8,90 87.3,92.4 87.3,87.6" fill="var(--c5,#c43d63)"/><line x1="40" y1="110" x2="119" y2="110" stroke="var(--c5,#c43d63)" stroke-width="1.6" opacity="1" stroke-linecap="round"/><polygon points="124.4,110 119,112.4 119,107.6" fill="var(--c5,#c43d63)"/><line x1="40" y1="130" x2="129.6" y2="130" stroke="var(--c5,#c43d63)" stroke-width="1.6" opacity="1" stroke-linecap="round"/><polygon points="135,130 129.5,132.4 129.5,127.6" fill="var(--c5,#c43d63)"/><line x1="40" y1="150" x2="119" y2="150" stroke="var(--c5,#c43d63)" stroke-width="1.6" opacity="1" stroke-linecap="round"/><polygon points="124.4,150 119,152.4 119,147.6" fill="var(--c5,#c43d63)"/><line x1="40" y1="170" x2="87.4" y2="170" stroke="var(--c5,#c43d63)" stroke-width="1.6" opacity="1" stroke-linecap="round"/><polygon points="92.8,170 87.3,172.4 87.3,167.6" fill="var(--c5,#c43d63)"/><text x="146" y="134" fill="var(--warn,#b8730c)" font-size="11.5" text-anchor="start" font-weight="700" opacity="1">u_máx</text><text x="24" y="224" fill="var(--tc,var(--accent))" font-size="13.5" text-anchor="start" font-weight="700" opacity="1">u(y) = u_máx · [1 − (y/R)²]</text><text x="330" y="56" fill="var(--fg)" font-size="13.5" text-anchor="start" opacity="1">Velocidad nula en la</text><text x="330" y="78" fill="var(--fg)" font-size="13.5" text-anchor="start" opacity="1">pared (no-deslizamiento)</text><text x="330" y="100" fill="var(--fg)" font-size="13.5" text-anchor="start" opacity="1">y máxima en el eje.</text><text x="330" y="133" fill="var(--tc,var(--accent))" font-size="14" text-anchor="start" font-weight="700" opacity="1">u_máx = 2 · ū</text><text x="330" y="155" fill="var(--muted)" font-size="12.5" text-anchor="start" opacity="1">(tubo circular)</text></svg><figcaption>El equilibrio entre gradiente de presión y fricción viscosa da un perfil parabólico, nulo en la pared y máximo en el centro.</figcaption></figure><figure class="ill"><div class="ill-t">Un tubo algo más ancho deja pasar mucho más</div><svg viewBox="0 0 560 262" role="img" aria-label="Ley de Hagen–Poiseuille" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,Segoe UI,sans-serif"><text x="24" y="60" fill="var(--tc,var(--accent))" font-size="15" text-anchor="start" font-weight="700" opacity="1">Q = π · R⁴ · Δp / (8 · μ · L)</text><circle cx="60" cy="140" r="14" fill="var(--c5,#c43d63)" stroke="var(--c5,#c43d63)" stroke-width="2.4" opacity="0.22"/><text x="60" y="194" fill="var(--c5,#c43d63)" font-size="12" text-anchor="middle" font-weight="700" opacity="1">R</text><circle cx="148" cy="140" r="20" fill="var(--tc,var(--accent))" stroke="var(--tc,var(--accent))" stroke-width="2.4" opacity="0.22"/><text x="148" y="194" fill="var(--tc,var(--accent))" font-size="12" text-anchor="middle" font-weight="700" opacity="1">1,4 R</text><circle cx="236" cy="140" r="28" fill="var(--c6,#2c8a52)" stroke="var(--c6,#2c8a52)" stroke-width="2.4" opacity="0.22"/><text x="236" y="194" fill="var(--c6,#2c8a52)" font-size="12" text-anchor="middle" font-weight="700" opacity="1">2 R</text><text x="60" y="214" fill="var(--c5,#c43d63)" font-size="12" text-anchor="middle" font-weight="700" opacity="1">×1</text><text x="148" y="214" fill="var(--tc,var(--accent))" font-size="12" text-anchor="middle" font-weight="700" opacity="1">×4</text><text x="236" y="214" fill="var(--c6,#2c8a52)" font-size="12" text-anchor="middle" font-weight="700" opacity="1">×16</text><text x="330" y="56" fill="var(--fg)" font-size="13.5" text-anchor="start" opacity="1">Q crece con la 4.ª</text><text x="330" y="78" fill="var(--fg)" font-size="13.5" text-anchor="start" opacity="1">potencia del radio:</text><text x="330" y="100" fill="var(--tc,var(--accent))" font-size="13.5" text-anchor="start" font-weight="700" opacity="1">duplicar R = 16 × Q.</text><text x="330" y="133" fill="var(--muted)" font-size="13" text-anchor="start" opacity="1">Sólo válido en</text><text x="330" y="155" fill="var(--muted)" font-size="13" text-anchor="start" opacity="1">régimen laminar</text><text x="330" y="177" fill="var(--muted)" font-size="13" text-anchor="start" opacity="1">(Re &lt; 2000).</text></svg><figcaption>El caudal laminar depende de R⁴: pequeñas variaciones de diámetro tienen un efecto enorme.</figcaption></figure></div><!--/ill--><details class="nom"><summary><span aria-hidden="true" class="nom-ic">Aa</span>Nomenclatura del tema 8 <span class="src">8 símbolos</span></summary><div class="inner">
 <div class="tw"><table><tr><th>Símbolo</th><th>Qué significa</th><th>Unidades · ejemplo</th></tr><tr><td class="sym">Re = ρvD/μ</td><td>Número de Reynolds</td><td class="u"><2300 laminar</td></tr><tr><td class="sym">f</td><td>Factor de fricción</td><td class="u">64/Re laminar</td></tr><tr><td class="sym">h_f = f(L/D)v²/2g</td><td>Darcy-Weisbach</td><td class="u"></td></tr><tr><td class="sym">u_máx = 2ū</td><td>Poiseuille en tubo</td><td class="u"></td></tr><tr><td class="sym">Q = πR⁴Δp/8μL</td><td>Hagen-Poiseuille</td><td class="u"></td></tr><tr><td class="sym">D_h = 4A/P</td><td>Diámetro hidráulico</td><td class="u"></td></tr><tr><td class="sym">δ</td><td>Espesor de capa límite</td><td class="u">m</td></tr><tr><td class="sym">ε/D</td><td>Rugosidad relativa</td><td class="u">Moody</td></tr></table></div></div></details>
 <figure class="fig"><p class="ft">Figura interactiva - perfil de Poiseuille, Reynolds y perdida de carga</p><div data-sim="laminar"></div><figcaption>Mueve los controles y lee el recuadro: la figura calcula lo mismo que tú harías a mano en el examen.</figcaption></figure>
-<!--amp1--><div class="zero" style="margin-top:14px"><p class="ft">Explicación ampliada</p><p class="ft">Laminar o turbulento: el número de Reynolds decide</p><p>El <b>número de Reynolds</b> \(Re=\dfrac{\rho vD}{\mu}\) compara la inercia con la viscosidad. En tubos: \(Re<2300\) <b>laminar</b> (capas ordenadas), \(Re>4000\) <b>turbulento</b> (mezcla caótica), y entre medias, zona de transición. Es lo primero que se calcula: decide qué fórmulas usar. Para secciones no circulares se usa el diámetro hidráulico \(D_h=4A/P_{mojado}\). La pérdida de carga es \(h_f=f\frac LD\frac{v^2}{2g}\), con \(f=64/Re\) en laminar, \(f=0{,}316/Re^{0,25}\) en turbulento liso (Blasius) y Colebrook/Moody en general con rugosidad \(\varepsilon/D\).</p><p class="ft">Navier–Stokes: resolverlo tachando términos</p><p>Las ecuaciones de Navier–Stokes (\(\rho\frac{D\vec v}{Dt}=-\nabla p+\rho\vec g+\mu\nabla^2\vec v\)) parecen imposibles, pero en flujos sencillos se resuelven <b>tachando términos</b>: estacionario, unidireccional, completamente desarrollado, etc. Queda una EDO fácil: se integra dos veces con las condiciones de contorno (no deslizamiento en la pared). Resultados clásicos: <b>Couette</b> (placa móvil): perfil lineal \(u=Vy/h\). <b>Poiseuille en tubo</b>: perfil parabólico \(u=\frac{\Delta p}{4\mu L}(R^2-r^2)\), con \(u_{max}=2\bar v\) y caudal \(Q=\frac{\pi R^4\Delta p}{8\mu L}\) (Hagen–Poiseuille): el caudal depende de \(R^4\), de modo que duplicar el diámetro multiplica el caudal por 16.</p>
+<!--amp1--><div class="zero" style="margin-top:14px"><p class="ft">Explicación ampliada</p><p class="ft">Laminar o turbulento: el número de Reynolds decide</p><p class="lede">El <b>número de Reynolds</b> \(Re=\dfrac{\rho vD}{\mu}\) compara la inercia con la viscosidad. En tubos: \(Re<2300\) <b>laminar</b> (capas ordenadas), \(Re>4000\) <b>turbulento</b> (mezcla caótica), y entre medias, zona de transición. Es lo primero que se calcula: decide qué fórmulas usar. Para secciones no circulares se usa el diámetro hidráulico \(D_h=4A/P_{mojado}\). La pérdida de carga es \(h_f=f\frac LD\frac{v^2}{2g}\), con \(f=64/Re\) en laminar, \(f=0{,}316/Re^{0,25}\) en turbulento liso (Blasius) y Colebrook/Moody en general con rugosidad \(\varepsilon/D\).</p><p class="ft">Navier–Stokes: resolverlo tachando términos</p><p>Las ecuaciones de Navier–Stokes (\(\rho\frac{D\vec v}{Dt}=-\nabla p+\rho\vec g+\mu\nabla^2\vec v\)) parecen imposibles, pero en flujos sencillos se resuelven <b>tachando términos</b>: estacionario, unidireccional, completamente desarrollado, etc. Queda una EDO fácil: se integra dos veces con las condiciones de contorno (no deslizamiento en la pared). Resultados clásicos: <b>Couette</b> (placa móvil): perfil lineal \(u=Vy/h\). <b>Poiseuille en tubo</b>: perfil parabólico \(u=\frac{\Delta p}{4\mu L}(R^2-r^2)\), con \(u_{max}=2\bar v\) y caudal \(Q=\frac{\pi R^4\Delta p}{8\mu L}\) (Hagen–Poiseuille): el caudal depende de \(R^4\), de modo que duplicar el diámetro multiplica el caudal por 16.</p>
 <figure class="fig"><p class="ft">Flujo laminar: perfil de velocidades</p><div data-sim="laminar"></div><figcaption>Modifica el gradiente de presión: el perfil parabólico mantiene siempre \(u_{max}=2\bar v\).</figcaption></figure></div><!--/amp1--><!--deep--><h3 id="t8-profundiza">Desarrollo teórico a fondo</h3><div class="deep">
-<h4>1. Navier-Stokes: la segunda ley de Newton para un fluido</h4>
+<h4><span class="hn">1</span>Navier-Stokes: la segunda ley de Newton para un fluido</h4>
 <div class="box key deepnote"><b>Idea clave.</b> es el balance de fuerzas sobre una partícula de fluido: masa por aceleración es igual a la suma de la presión, la viscosidad y la gravedad.</div>
 <div class="eqd">\[\rho\left(\frac{\partial\vec v}{\partial t}+(\vec v\cdot\nabla)\vec v\right)=-\nabla p+\mu\nabla^2\vec v+\rho\vec g\]</div>
 <ul><li>Es válida para <b>fluido newtoniano incompresible</b> con viscosidad constante.</li><li>Junto con la <b>continuidad</b> \(\nabla\cdot\vec v=0\) forman el sistema de las cuatro incógnitas (\(u,v,w,p\)).</li><li>No tiene solución general; solo se resuelve en casos simples.</li></ul>
-<h4>2. Casos con solución exacta: flujo unidireccional</h4>
+<h4><span class="hn">2</span>Casos con solución exacta: flujo unidireccional</h4>
 <p>Si el fluido solo se mueve en \(x\) y depende de \(y\), la ecuación se reduce a:</p>
 <div class="eqd">\[0=-\frac{\mathrm dp}{\mathrm dx}+\mu\,\frac{\mathrm d^2u}{\mathrm dy^2}\]</div>
 <ol class="pasos"><li>Simplifica Navier-Stokes con las hipótesis (estacionario, desarrollado, 1D).</li><li>Integra dos veces. Aparecen dos constantes.</li><li>Impón las <b>condiciones de contorno</b>: <b>no deslizamiento</b> (\(u=0\) en la pared, o \(u=V\) en la placa móvil).</li><li>Obtén \(u(y)\), el caudal \(Q=\int u\,\mathrm dA\) y el esfuerzo \(\tau=\mu\,\mathrm du/\mathrm dy\).</li></ol>
 <details class="dem"><summary><span class="pn">∴</span>Tres soluciones que debes conocer</summary><div class="inner"><ul><li><b>Couette</b> (placa móvil, sin gradiente de presión): perfil <b>lineal</b>, \(u=Vy/h\).</li><li><b>Poiseuille entre placas</b> (gradiente de presión, placas fijas): perfil <b>parabólico</b>, \(u=\dfrac{1}{2\mu}\left(-\dfrac{\mathrm dp}{\mathrm dx}\right)y(h-y)\).</li><li><b>Hagen-Poiseuille en tubería circular</b>:</li></ul>
 <div class="eqd">\[u(r)=u_{max}\left(1-\frac{r^2}{R^2}\right)\qquad Q=\frac{\pi R^4\,\Delta p}{8\mu L}\qquad\bar v=\frac{u_{max}}{2}\]</div>
 <div class="box trap deepnote"><b>Cuidado.</b> El caudal en una tubería laminar depende de \(R^4\): duplicar el radio multiplica el caudal por 16.</div></div></details>
-<h4>3. Cuándo es laminar</h4>
+<h4><span class="hn">3</span>Cuándo es laminar</h4>
 <div class="eqd">\[\mathrm{Re}=\frac{\rho vD}{\mu}=\frac{vD}{\nu}\]</div>
 <ul><li>Re < 2300 en tubería: <b>laminar</b>. Entre 2300 y 4000 es transición; por encima, turbulento.</li><li>El flujo laminar es ordenado y las pérdidas son proporcionales a la velocidad (\(f=64/\mathrm{Re}\)).</li></ul>
 </div><!--/deep--><h3 id="t8-formulas">Lo que tienes que saber</h3>

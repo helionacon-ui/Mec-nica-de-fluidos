@@ -17,24 +17,64 @@
 <style id="lectura">
 @media screen{
 :root{--body:"Atkinson Hyperlegible Next","Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,sans-serif}
-body{font-family:var(--body);font-size:20.5px;line-height:2.1;letter-spacing:.022em;word-spacing:.09em}
-p{margin:0 0 1.75em}
-li{margin:.8em 0}
-p,li{max-width:62ch}
+body{font-family:var(--body);font-size:20px;line-height:1.95;letter-spacing:.014em;word-spacing:.05em}
+p{margin:0 0 1.5em;max-width:64ch;hyphens:auto;-webkit-hyphens:auto}
+li{margin:.72em 0;max-width:64ch}
 .box p:last-child,.box ul:last-child,.box ol:last-child{margin-bottom:0}
-h2{margin-top:92px;margin-bottom:24px;line-height:1.3}
-h3{font-size:24px;margin:58px 0 18px;line-height:1.35}
-h4{margin-top:34px;margin-bottom:10px}
-.box{padding:24px 30px;margin:32px 0}
-table{font-size:18px;line-height:1.75}
-td,th{padding-top:.85em;padding-bottom:.85em}
-figure.fig figcaption{font-size:17px;line-height:1.8;margin-top:12px}
+h2{margin-top:92px;margin-bottom:22px;line-height:1.25}
+h3{font-size:25px;margin:66px 0 20px;line-height:1.3}
+h4{margin:38px 0 12px;line-height:1.4}
+/* ---- entradilla con capitular ---- */
+.zero .lede{font-size:1.05em;line-height:1.86;text-align:left}
+.zero .lede::first-letter{float:left;font-size:3.05em;line-height:.84;font-weight:700;padding:.06em .14em 0 0;color:var(--tc,var(--accent))}
+/* ---- sumario del tema ---- */
+p.obj{max-width:none;text-align:left;margin:0 0 1.7em;padding:14px 20px;border-radius:10px;
+ background:color-mix(in srgb,var(--surface) 62%,transparent);
+ border-left:3px solid var(--tc,var(--accent));font-size:.95em;line-height:1.75}
+p.obj>b:first-child{display:block;font:700 11.5px/1.7 var(--mono,monospace);letter-spacing:.1em;
+ text-transform:uppercase;color:var(--tc,var(--accent))}
+/* ---- términos con entrada, al modo de un manual ---- */
+p.run{margin:0 0 1.38em}
+p.run>b:first-child{display:block;font:700 12px/1.7 var(--mono,monospace);letter-spacing:.09em;
+ text-transform:uppercase;color:var(--tc,var(--accent))}
+/* ---- rótulos internos ---- */
+.zero>.ft{font:700 11.5px/1.6 var(--mono,monospace);letter-spacing:.1em;text-transform:uppercase}
+.zero>.ft:not(:first-child){margin-top:2em;font-size:12.5px;color:var(--fg);opacity:.72}
+/* ---- desarrollo teórico ---- */
+.deep h4{position:relative;padding-left:2.35em;font-size:1.03em}
+.deep h4 .hn{position:absolute;left:0;top:.06em;font:700 .84em/1.7 var(--mono,monospace);
+ color:var(--tc,var(--accent));opacity:.8}
+.deep>h4:not(:first-child){border-top:1px solid var(--line);padding-top:30px;margin-top:42px}
+.eqd{margin:1.65em 0;text-align:center;overflow-x:auto;overflow-y:hidden}
+/* ---- notas al margen, sin duplicar el rótulo ---- */
+.box.deepnote{padding:15px 20px;margin:1.5em 0;border-radius:0 10px 10px 0;
+ background:color-mix(in srgb,var(--surface) 76%,transparent)}
+.box.key.deepnote::before,.box.trap.deepnote::before{content:none}
+.box.deepnote>b:first-child{display:block;font:700 11.5px/1.7 var(--mono,monospace);
+ letter-spacing:.1em;text-transform:uppercase;color:var(--tc,var(--accent))}
+.box.trap.deepnote>b:first-child{color:var(--warn)}
+/* ---- resto ---- */
+.box{padding:22px 28px;margin:30px 0}
+table{font-size:18px;line-height:1.7}
+td,th{padding-top:.8em;padding-bottom:.8em}
+figure.fig figcaption{font-size:17px;line-height:1.78;margin-top:12px}
 figure.fig{margin-block:34px}
-.lede{line-height:1.85}
 .toc a{font-size:15.5px;padding:8px 0 8px 10px}
 svg,svg text,canvas,.katex,mjx-container{letter-spacing:normal;word-spacing:normal}
+mjx-container[display]{margin:0!important}
 details>summary{line-height:1.7;padding-block:.5em}
-@media (max-width:600px){body{font-size:19px;line-height:2}}
+.enun p,.inner p{text-align:left}
+@media (min-width:1040px){
+p,li{text-align:justify}
+.zero .lede,.enun p,.inner p,figcaption,.ft{text-align:left}
+}
+@media (max-width:600px){
+body{font-size:18.5px;line-height:1.9}
+p{text-align:left}
+.zero .lede::first-letter{font-size:2.6em}
+.deep h4{padding-left:0}
+.deep h4 .hn{position:static;margin-right:.5em}
+}
 }
 </style>
 </head>
@@ -46,7 +86,7 @@ details>summary{line-height:1.7;padding-block:.5em}
 <main>
 <section class="sec tema" style="--tc:var(--c4);--tcs:var(--c4s)">
 <div class="sh"><span aria-hidden="true" class="badge">3</span><div class="shx"><p class="kick">Estática y cinemática · Tema 3</p><h2 id="t3">Fuerzas hidrostáticas y flotación</h2><div class="tags"><span class="tag">Estática y cinemática</span><span class="tag">1.er parcial (40 %)</span></div></div></div>
-<div class="zero"><p class="ft">Desde cero</p><p><b>Objetivo:</b> calcular la fuerza que un fluido en reposo ejerce sobre una superficie plana o curva y dónde se aplica, y analizar la flotación y la estabilidad de un cuerpo flotante.</p><ul>
+<div class="zero"><p class="ft">Desde cero</p><p class="obj"><b>Objetivo:</b> calcular la fuerza que un fluido en reposo ejerce sobre una superficie plana o curva y dónde se aplica, y analizar la flotación y la estabilidad de un cuerpo flotante.</p><ul>
 <li>Sobre una <b>superficie plana sumergida</b>, la resultante vale \(F=p_G A\) (la presión <b>en el centro de gravedad</b> por el área), pero <b>no se aplica en G</b>: se aplica más abajo, en el <b>centro de presiones</b>.</li>
 <li>El desplazamiento del centro de presiones es \(y_{cp}-y_G=\dfrac{I_G}{y_GA}\): tanto menor cuanto más hundida esté la superficie (la distribución de presiones se vuelve más uniforme).</li>
 <li>En una <b>superficie curva</b> se descompone: la componente <b>horizontal</b> es la fuerza sobre la proyección vertical; la <b>vertical</b> es el <b>peso del volumen de líquido</b> que hay encima (real o imaginario).</li>
@@ -56,18 +96,18 @@ details>summary{line-height:1.7;padding-block:.5em}
 <!--ill--><div class="ill-wrap"><h3 class="ill-h" style="margin:22px 0 4px">En imágenes</h3><figure class="ill"><div class="ill-t">El empuje sobre una pared no actúa en su centro</div><svg viewBox="0 0 560 262" role="img" aria-label="Fuerza sobre una compuerta" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,Segoe UI,sans-serif"><rect x="30" y="60" width="10" height="140" rx="0" fill="var(--c5,#c43d63)" stroke="none" stroke-width="1.5" opacity="0.14"/><rect x="40" y="60" width="0" height="0" rx="0" fill="none" stroke="none" stroke-width="1.5" opacity="1"/><rect x="40" y="70" width="180" height="130" rx="0" fill="var(--c5,#c43d63)" stroke="none" stroke-width="1.5" opacity="0.1"/><line x1="40" y1="70" x2="220" y2="70" stroke="var(--c5,#c43d63)" stroke-width="2.2" opacity="1" stroke-linecap="round"/><line x1="160" y1="70" x2="160" y2="200" stroke="var(--fg)" stroke-width="6" opacity="1" stroke-linecap="round"/><polygon points="160,70 160,200 100,200" fill="var(--tc,var(--accent))" stroke="var(--tc,var(--accent))" stroke-width="2.2" opacity="0.22" stroke-linejoin="round" stroke-linecap="round"/><circle cx="160" cy="157" r="5" fill="var(--warn,#b8730c)" stroke="none" stroke-width="1.8" opacity="1"/><text x="170" y="152" fill="var(--warn,#b8730c)" font-size="12" text-anchor="start" font-weight="700" opacity="1">C.P.</text><line x1="130" y1="157" x2="153.9" y2="157" stroke="var(--warn,#b8730c)" stroke-width="2.8" opacity="1" stroke-linecap="round"/><polygon points="162,157 153.8,160.7 153.8,153.3" fill="var(--warn,#b8730c)"/><text x="24" y="230" fill="var(--tc,var(--accent))" font-size="13" text-anchor="start" font-weight="700" opacity="1">F = p_G · A      y_cp = 2/3 · H (rect.)</text><text x="330" y="56" fill="var(--fg)" font-size="13.5" text-anchor="start" opacity="1">La resultante está por</text><text x="330" y="78" fill="var(--fg)" font-size="13.5" text-anchor="start" opacity="1">debajo del centro de</text><text x="330" y="100" fill="var(--fg)" font-size="13.5" text-anchor="start" opacity="1">gravedad.</text><text x="330" y="133" fill="var(--tc,var(--accent))" font-size="13.5" text-anchor="start" font-weight="700" opacity="1">Prisma de presiones:</text><text x="330" y="155" fill="var(--tc,var(--accent))" font-size="13.5" text-anchor="start" font-weight="700" opacity="1">volumen = fuerza.</text></svg><figcaption>La presión crece con la profundidad, de modo que la fuerza resultante queda más cerca del fondo: a dos tercios de la altura en una compuerta rectangular.</figcaption></figure><figure class="ill"><div class="ill-t">Arquímedes: el fluido empuja lo que desaloja</div><svg viewBox="0 0 560 262" role="img" aria-label="Flotación" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,Segoe UI,sans-serif"><rect x="24" y="100" width="240" height="100" rx="0" fill="var(--c5,#c43d63)" stroke="none" stroke-width="1.5" opacity="0.12"/><line x1="24" y1="100" x2="264" y2="100" stroke="var(--c5,#c43d63)" stroke-width="2.4" opacity="1" stroke-linecap="round"/><rect x="90" y="80" width="100" height="60" rx="6" fill="var(--tc,var(--accent))" stroke="var(--tc,var(--accent))" stroke-width="2.6" opacity="0.25"/><circle cx="140" cy="112" r="4" fill="var(--fg)" stroke="none" stroke-width="1.8" opacity="1"/><line x1="140" y1="112" x2="140" y2="63" stroke="var(--c5,#c43d63)" stroke-width="3" opacity="1" stroke-linecap="round"/><polygon points="140,54 144.1,63.1 135.9,63.1" fill="var(--c5,#c43d63)"/><text x="148" y="60" fill="var(--c5,#c43d63)" font-size="13" text-anchor="start" font-weight="700" opacity="1">E</text><line x1="160" y1="112" x2="160" y2="155" stroke="var(--warn,#b8730c)" stroke-width="3" opacity="1" stroke-linecap="round"/><polygon points="160,164 155.9,154.9 164.1,154.9" fill="var(--warn,#b8730c)"/><text x="168" y="160" fill="var(--warn,#b8730c)" font-size="13" text-anchor="start" font-weight="700" opacity="1">P</text><text x="24" y="230" fill="var(--tc,var(--accent))" font-size="13.5" text-anchor="start" font-weight="700" opacity="1">E = ρ_fl · g · V_sumergido</text><text x="330" y="56" fill="var(--fg)" font-size="13.5" text-anchor="start" opacity="1">Flota si E = P.</text><text x="330" y="89" fill="var(--tc,var(--accent))" font-size="13.5" text-anchor="start" font-weight="700" opacity="1">Estable si el centro de</text><text x="330" y="111" fill="var(--tc,var(--accent))" font-size="13.5" text-anchor="start" font-weight="700" opacity="1">empuje queda por</text><text x="330" y="133" fill="var(--tc,var(--accent))" font-size="13.5" text-anchor="start" font-weight="700" opacity="1">encima del c.d.g.</text><text x="330" y="155" fill="var(--muted)" font-size="12.5" text-anchor="start" opacity="1">(o metacentro alto).</text></svg><figcaption>El empuje es el peso del volumen de fluido desplazado; el cuerpo flota cuando empuje y peso se igualan.</figcaption></figure></div><!--/ill--><details class="nom"><summary><span aria-hidden="true" class="nom-ic">Aa</span>Nomenclatura del tema 3 <span class="src">8 símbolos</span></summary><div class="inner">
 <div class="tw"><table><tr><th>Símbolo</th><th>Qué significa</th><th>Unidades · ejemplo</th></tr><tr><td class="sym">F = ρ g h_G A</td><td>Resultante sobre plano</td><td class="u">N</td></tr><tr><td class="sym">h_G</td><td>Profundidad del centroide</td><td class="u">m</td></tr><tr><td class="sym">y_cp</td><td>Centro de presiones</td><td class="u">sobre el plano</td></tr><tr><td class="sym">I_G</td><td>Momento de inercia</td><td class="u">bh³/12</td></tr><tr><td class="sym">F_H</td><td>Componente horizontal</td><td class="u">proyección vertical</td></tr><tr><td class="sym">F_V</td><td>Componente vertical</td><td class="u">peso del volumen</td></tr><tr><td class="sym">E = ρgV</td><td>Empuje de Arquímedes</td><td class="u">N</td></tr><tr><td class="sym">GM</td><td>Altura metacéntrica</td><td class="u">> 0 estable</td></tr></table></div></div></details>
 <figure class="fig"><p class="ft">Figura interactiva - fuerza sobre una compuerta y centro de presiones</p><div data-sim="compuerta"></div><figcaption>Mueve los controles y lee el recuadro: la figura calcula lo mismo que tú harías a mano en el examen.</figcaption></figure>
-<!--amp1--><div class="zero" style="margin-top:14px"><p class="ft">Explicación ampliada</p><p class="ft">Fuerza sobre una superficie plana sumergida</p><p>La presión crece con la profundidad, así que sobre una compuerta la distribución es un triángulo (o trapecio). La <b>fuerza resultante</b> es la presión en el <b>centroide</b> por el área: \(F=\rho g\,h_G\,A\). Pero no se aplica en el centroide, sino algo <b>más abajo</b>, en el <b>centro de presiones</b>: \(y_{cp}=y_G+\dfrac{I_G}{y_GA}\), medido a lo largo del plano de la compuerta. En una compuerta rectangular vertical con el borde en la superficie, \(F=\rho gh^2b/2\) aplicada a \(2h/3\) de profundidad. En superficies curvas: \(F_H\) (proyección vertical) y \(F_V\) (peso del volumen de líquido encima).</p><p class="ft">Flotación y estabilidad</p><p>El <b>empuje</b> de Arquímedes \(E=\rho_f g V_{sum}\) pasa por el centro de empuje B (centroide del volumen sumergido). Un cuerpo flota en equilibrio si \(E=W\), y entonces \(V_{sum}/V=\rho_{cuerpo}/\rho_{fluido}\). La <b>estabilidad</b> depende del metacentro M: \(\overline{GM}=\overline{BM}-\overline{BG}\) con \(\overline{BM}=I_0/V_{sum}\) (\(I_0\) = inercia de la flotación). Si \(\overline{GM}>0\), un pequeño giro genera un par recuperador y el cuerpo es <b>estable</b>. El periodo de balanceo es \(T=2\pi\sqrt{k^2/(g\overline{GM})}\): más estabilidad, balanceo más rápido y brusco.</p>
+<!--amp1--><div class="zero" style="margin-top:14px"><p class="ft">Explicación ampliada</p><p class="ft">Fuerza sobre una superficie plana sumergida</p><p class="lede">La presión crece con la profundidad, así que sobre una compuerta la distribución es un triángulo (o trapecio). La <b>fuerza resultante</b> es la presión en el <b>centroide</b> por el área: \(F=\rho g\,h_G\,A\). Pero no se aplica en el centroide, sino algo <b>más abajo</b>, en el <b>centro de presiones</b>: \(y_{cp}=y_G+\dfrac{I_G}{y_GA}\), medido a lo largo del plano de la compuerta. En una compuerta rectangular vertical con el borde en la superficie, \(F=\rho gh^2b/2\) aplicada a \(2h/3\) de profundidad. En superficies curvas: \(F_H\) (proyección vertical) y \(F_V\) (peso del volumen de líquido encima).</p><p class="ft">Flotación y estabilidad</p><p>El <b>empuje</b> de Arquímedes \(E=\rho_f g V_{sum}\) pasa por el centro de empuje B (centroide del volumen sumergido). Un cuerpo flota en equilibrio si \(E=W\), y entonces \(V_{sum}/V=\rho_{cuerpo}/\rho_{fluido}\). La <b>estabilidad</b> depende del metacentro M: \(\overline{GM}=\overline{BM}-\overline{BG}\) con \(\overline{BM}=I_0/V_{sum}\) (\(I_0\) = inercia de la flotación). Si \(\overline{GM}>0\), un pequeño giro genera un par recuperador y el cuerpo es <b>estable</b>. El periodo de balanceo es \(T=2\pi\sqrt{k^2/(g\overline{GM})}\): más estabilidad, balanceo más rápido y brusco.</p>
 <figure class="fig"><p class="ft">Compuerta: fuerza y centro de presiones</p><div data-sim="compuerta"></div><figcaption>Observa cómo el centro de presiones baja de \(2h/3\) a medida que la compuerta está más hundida.</figcaption></figure></div><!--/amp1--><!--deep--><h3 id="t3-profundiza">Desarrollo teórico a fondo</h3><div class="deep">
-<h4>1. Fuerza sobre superficie plana sumergida</h4>
+<h4><span class="hn">1</span>Fuerza sobre superficie plana sumergida</h4>
 <div class="eqd">\[F=\rho g\,h_G\,A=p_G\,A\]</div>
 <ul><li>\(h_G\) es la profundidad del <b>centro de gravedad</b> de la superficie, no del punto más profundo.</li><li>La fuerza es <b>perpendicular</b> a la superficie.</li></ul>
 <details class="dem"><summary><span class="pn">∴</span>Punto de aplicación: el centro de presiones</summary><div class="inner"><div class="eqd">\[y_{cp}=y_G+\frac{I_{G}}{y_G\,A}\]</div>
 <ul><li>\(y\) se mide <b>a lo largo del plano inclinado</b>, desde la superficie libre.</li><li>\(I_G\) es el momento de inercia respecto al eje horizontal que pasa por el centro de gravedad. Rectángulo: \(bh^3/12\); círculo: \(\pi R^4/4\).</li><li>El centro de presiones <b>siempre está por debajo</b> del centro de gravedad.</li></ul>
 <ol class="pasos"><li>Calcula \(F\) con \(h_G\).</li><li>Calcula \(y_{cp}\) con la fórmula.</li><li>Si piden un momento (por ejemplo, en una compuerta articulada), toma momentos de \(F\) respecto a la articulación.</li></ol></div></details>
-<h4>2. Superficies curvas</h4>
+<h4><span class="hn">2</span>Superficies curvas</h4>
 <div class="box key deepnote"><b>Idea clave.</b> descompón la fuerza en <b>componentes horizontal y vertical</b>; no integres sobre la curva.</div>
 <ul><li><b>\(F_H\):</b> la fuerza sobre la <b>proyección vertical</b> de la superficie, como si fuera plana.</li><li><b>\(F_V\):</b> el <b>peso del líquido</b> que hay (real o imaginario) entre la superficie y la superficie libre.</li><li>Resultante: \(F=\sqrt{F_H^2+F_V^2}\), con ángulo \(\tan\theta=F_V/F_H\). Pasa por el <b>centro</b> de la circunferencia si la superficie es circular.</li></ul>
-<h4>3. Empuje y flotación</h4>
+<h4><span class="hn">3</span>Empuje y flotación</h4>
 <div class="eqd">\[E=\rho_{fluido}\,g\,V_{sumergido}\]</div>
 <ul><li>El <b>principio de Arquímedes</b>: el empuje es el peso del fluido desalojado. Actúa en el <b>centro de empuje</b> (centro de gravedad del volumen desalojado).</li><li>Un cuerpo <b>flota</b> si \(\rho_{cuerpo}<\rho_{fluido}\). La fracción sumergida es \(\rho_{cuerpo}/\rho_{fluido}\).</li></ul>
 <ol class="pasos"><li>Dibuja el diagrama de fuerzas: peso, empuje, tensiones.</li><li>Plantea \(\sum F_y=0\).</li><li>Despeja la incógnita (volumen sumergido, tensión de un cable…).</li></ol>
