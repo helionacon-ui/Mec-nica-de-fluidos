@@ -77,4 +77,11 @@ M.reg('mf-t10',M.base({title:'Tobera convergente-divergente',H:560,dur:16,caps:[
   var p=[];for(var s2=0;s2<=xm;s2+=0.01)p.push([B.X(s2),B.Y(MofA(Ar(s2),s2>0.4))]);D.path(p,C.m,2.8);D.line(B.X(0),B.Y(1),B.X(1),B.Y(1),C.hl,1.2,[5,4]);
   var Mx=MofA(Ar(xm),xm>0.4);D.dot(B.X(xm),B.Y(Mx),6,C.m);D.dot(x0+xm*w,cy,7,Mx>1?C.bad:C.f);
   D.text('M = '+nf(Mx,2)+(Mx<0.99?'  subsónico':(Mx<1.01?'  sónico':'  supersónico')),W/2,500,{it:true,s:21,a:'center',c:C.m,bold:true});}));
+M.reg('mf-t7b',M.base({title:'Vaciado de un depósito: Torricelli',H:580,dur:18,caps:[[6,'Aplicando Bernoulli entre la superficie libre y el orificio, la velocidad de salida es <i>v = √(2gh)</i>, como en una caída libre desde la altura h.'],[12,'Al bajar el nivel, baja la velocidad: el depósito se vacía cada vez más despacio. Por continuidad, <i>A·dh/dt = −a·√(2gh)</i>.'],[99,'Integrando, √h baja linealmente con el tiempo. Tiempo total: <i>t = (A/a)·√(2h₀/g)</i>.']]},
+ function(D,t){var h0=2,Aa=400,T=Aa*Math.sqrt(2*h0/9.81),tt=seg(t,1,16)*T,sh=Math.sqrt(h0)-tt/Aa*Math.sqrt(9.81/2),h=Math.max(0,sh*sh),v=Math.sqrt(2*9.81*h),x0=70,y0=110,Hp=220,S=Hp/h0;
+  D.rect(x0,y0,150,Hp+10,C.ax,null,2.4);D.rect(x0+2,y0+Hp+8-h*S,146,h*S,null,RG(C.f,.45));D.line(x0+150,y0+Hp-4,x0+160,y0+Hp-4,C.ax,2.4);
+  var p=[];for(var k=0;k<=20;k++){var tx=k*0.03,px=x0+160+v*tx*45,py=y0+Hp-4+0.5*9.81*tx*tx*45;p.push([px,py]);}if(h>0.01)D.path(p,C.f,3,null,0.8);
+  var A=U.axes(D,{xr:[0,T*1.05],yr:[0,2.2],xt:[Math.round(T/4),Math.round(T/2),Math.round(3*T/4),Math.round(T)],yt:[1,2],xd:0,yd:0,xl:'t (s)',yl:'h (m)'},{x:340,y:120,w:260,h:240,grid:true});
+  U.plotf(D,A,function(s){if(s>tt)return NaN;var q=Math.sqrt(h0)-s/Aa*Math.sqrt(9.81/2);return q>0?q*q:0;},C.m,2.6);
+  U.readout(D,['h = '+nf(h,2)+' m    v = √(2gh) = '+nf(v,2)+' m/s','A/a = 400    tiempo total = '+nf(T,0)+' s'],460);}));
 })();
