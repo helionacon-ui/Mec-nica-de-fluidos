@@ -679,5 +679,111 @@ SIMS.__paso=(el,D)=>build(el,{w:D.w||660,h:D.h||340,
 /* ---- paso2 manometroPaso ---- */
 SIMS.manometroPaso=el=>SIMS.__paso(el,{"w":660,"h":270,"q":"Un manómetro diferencial de mercurio marca Δh = 0,30 m entre dos puntos de una tubería de agua. ¿Qué diferencia de presión hay? Sube el paso.","base":[["t","Agua en la tubería · manómetro en U con mercurio · Δh = 0,30 m",30,26,13,"left"],["r",330,70,34,170,0],["r",420,70,34,170,0],["l",330,240,454,240,2]],"steps":[{"text":"Un manómetro en U con <b>mercurio</b> (ρ = 13600 kg/m³) conecta dos puntos de una tubería con <b>agua</b> (ρ = 1000 kg/m³). El mercurio queda <b>0,30 m</b> más alto en la rama de menor presión. ¿Cuánto vale P₁ − P₂?","add":[]},{"text":"Se recorre el manómetro desde el punto 1 al 2 sumando y restando <b>ρgh</b> por cada columna: baja el agua, sube el mercurio, baja otra columna de agua… Lo que importa es la diferencia de alturas Δh = 0,30 m.","add":[["r",331,160,32,80,1],["r",421,130,32,110,1],["l",300,160,454,160,1,[4,4]],["l",330,130,484,130,1,[4,4]]]},{"text":"En la sección de la interfaz las dos presiones coinciden. Resulta <b>P₁ − P₂ = (ρ<sub>Hg</sub> − ρ<sub>agua</sub>)·g·Δh</b>: el agua que llena las ramas «resta» su propio peso.","add":[["t","P₁ − P₂ = (ρ_Hg − ρ_agua) g Δh",40,70,15,"left"]]},{"text":"Se sustituye: (13600 − 1000) = <b>12600 kg/m³</b>; 12600 · 9,81 = 123606 N/m³ (peso específico efectivo).","add":[["t","12600 · 9,81 = 123 606 N/m³",40,110,15,"left"]]},{"text":"<b>P₁ − P₂ = 123606 · 0,30 = 37082 Pa ≈ 37,1 kPa</b>. Equivale a una columna de agua de 3,78 m.","add":[["t","P₁ − P₂ = 37082 Pa ≈ 37,1 kPa",40,150,16,"left"]]},{"text":"Error típico: usar solo ρ<sub>Hg</sub>·g·Δh = 40 kPa e ignorar el agua de las ramas; da un valor <b>7,9 % mayor</b>. Con gases en vez de agua sí se puede despreciar su peso.","add":[["t","sin restar el agua: 40 kPa (error)",40,190,14,"left"]]}]});
 /* ---- fin paso2 manometroPaso ---- */
+/* ---- sim venturi ---- */
+/* Venturi animado: continuidad + Bernoulli, con partículas y piezómetros. */
+SIMS.venturi = el => {
+  const nf = (x, d) => (Math.abs(x) < 1e-12 ? 0 : x).toFixed(d === undefined ? 2 : d).replace('.', ',');
+  const pal = cv => { const cs = getComputedStyle(cv.parentNode), v = n => cs.getPropertyValue(n).trim();
+    return { azul: v('--c5') || '#2a5f9e', rojo: v('--warn') || '#b03a1e', verde: v('--c2') || '#1f7a5a',
+             naranja: v('--c4') || '#a8601a', teja: v('--c6') || '#0f6f74' }; };
+  const RHO = 1000, PV = 2.34;                         // agua a 20 °C; presión de vapor en kPa
+  const pts = []; for (let k = 0; k < 46; k++) pts.push({ x: Math.random(), r: Math.random() * 1.8 - 0.9 });
+  let ultimo = '';
+  const spec = {
+    w: 680, h: 470,
+    sliders: [{ k: 'd', v: 50, min: 20, max: 100, step: 1, l: 'Diámetro de la garganta d', u: 'mm' },
+              { k: 'D', v: 100, min: 60, max: 150, step: 5, l: 'Diámetro de la tubería D', u: 'mm' },
+              { k: 'Q', v: 10, min: 1, max: 30, step: 0.5, l: 'Caudal Q', u: 'L/s' },
+              { k: 'p1', v: 150, min: 100, max: 400, step: 5, l: 'Presión absoluta aguas arriba p₁', u: 'kPa' }],
+    selects: [{ k: 'anim', v: 'si', l: 'Animación', opts: [['si', 'En marcha'], ['no', 'Parada']] }],
+    draw(a, dt) {
+      const st = a.st, g = a.g, S = pal(a.cv);
+      const d = Math.min(st.d, st.D), A1 = Math.PI * Math.pow(st.D / 1000, 2) / 4, A2 = Math.PI * Math.pow(d / 1000, 2) / 4;
+      const q = st.Q / 1000, v1 = q / A1, v2 = q / A2;
+      const dp = 0.5 * RHO * (v2 * v2 - v1 * v1) / 1000, p2 = st.p1 - dp, cav = p2 < PV;
+      a.clear();
+      // ---------- tubo ----------
+      const x0 = 40, x1 = 640, cy = 150, Rmax = 62 * st.D / 150, Rg = Rmax * d / st.D;
+      const R = u => {                       // radio dibujado en la posición u (0..1)
+        const s = u < .28 ? 0 : u < .42 ? (u - .28) / .14 : u < .58 ? 1 : u < .72 ? 1 - (u - .58) / .14 : 0;
+        const e = (1 - Math.cos(Math.PI * s)) / 2; return Rmax + (Rg - Rmax) * e; };
+      const X = u => x0 + u * (x1 - x0);
+      g.beginPath(); for (let k = 0; k <= 120; k++) { const u = k / 120; k ? g.lineTo(X(u), cy - R(u)) : g.moveTo(X(u), cy - R(u)); }
+      for (let k = 120; k >= 0; k--) { const u = k / 120; g.lineTo(X(u), cy + R(u)); }
+      g.closePath(); g.save(); g.globalAlpha = .14; g.fillStyle = S.azul; g.fill(); g.restore();
+      g.strokeStyle = C.muted; g.lineWidth = 2; g.stroke();
+      // líneas de corriente
+      [-0.66, -0.33, 0, 0.33, 0.66].forEach(fr => { g.strokeStyle = S.azul; g.globalAlpha = .45; g.lineWidth = 1.3; g.beginPath();
+        for (let k = 0; k <= 120; k++) { const u = k / 120; k ? g.lineTo(X(u), cy + fr * R(u)) : g.moveTo(X(u), cy + fr * R(u)); } g.stroke(); g.globalAlpha = 1; });
+      // partículas: avanzan con v(x) = Q/A(x)
+      pts.forEach(p => {
+        if (dt) { const rr = R(p.x) / Rmax; p.x += dt * 0.00016 * (0.25 + st.Q / 12) / (rr * rr); if (p.x > 1) { p.x -= 1; p.r = Math.random() * 1.8 - 0.9; } }
+        a.circ(X(p.x), cy + p.r * R(p.x), 3, S.azul, true);
+      });
+      a.arrow(x0 - 26, cy, x0 - 4, cy, C.muted, 2);
+      // ---------- piezómetros ----------
+      const pmax = Math.max(st.p1, 1), esc = 78 / pmax;
+      [[.14, st.p1, 'p₁'], [.5, p2, 'p₂'], [.86, st.p1, 'p₃']].forEach(([u, p, nm]) => {
+        const x = X(u), yb = cy - R(u), h = Math.max(0, p) * esc, yt = yb - 84;
+        g.strokeStyle = C.muted; g.lineWidth = 1.6; g.strokeRect(x - 9, yt - (Rmax - R(u)), 18, 84 + (Rmax - R(u)));
+        g.fillStyle = (u === .5 && cav) ? S.rojo : S.azul;
+        g.fillRect(x - 8, yb - Math.min(h, 84 + (Rmax - R(u)) - 2), 16, Math.min(h, 84 + (Rmax - R(u)) - 2));
+        a.txt(nm + ' = ' + nf(p, 1) + ' kPa', x + 14, yt - (Rmax - R(u)) + 12, (u === .5 && cav) ? S.rojo : C.text, 12);
+      });
+      a.txt('v₁ = ' + nf(v1) + ' m/s', X(.14), cy + Rmax + 20, C.text, 12.5, 'center');
+      a.txt('v₂ = ' + nf(v2) + ' m/s', X(.5), cy + Rmax + 20, S.rojo, 12.5, 'center');
+      a.txt('v₃ = v₁', X(.86), cy + Rmax + 20, C.text, 12.5, 'center');
+      // ---------- v frente a A ----------
+      const px = 70, py = 268, pw = 270, ph = 120;
+      a.txt('Velocidad frente a sección:  v = Q / A', px, py - 10, C.text, 12.5);
+      const Amin = Math.PI * 0.02 * 0.02 / 4, Amax = Math.PI * 0.15 * 0.15 / 4, vtop = Math.max(q / A2 * 1.15, 4);
+      const GX = A => px + (A - Amin) / (Amax - Amin) * pw, GY = v => py + ph - Math.min(v, vtop) / vtop * ph;
+      a.line(px, py + ph, px + pw, py + ph, C.muted, 1.4); a.line(px, py, px, py + ph, C.muted, 1.4);
+      g.save(); g.beginPath(); g.rect(px, py, pw, ph); g.clip();
+      g.strokeStyle = S.naranja; g.lineWidth = 2.6; g.beginPath();
+      for (let k = 0; k <= 100; k++) { const A = Amin + (Amax - Amin) * k / 100; k ? g.lineTo(GX(A), GY(q / A)) : g.moveTo(GX(A), GY(q / A)); }
+      g.stroke(); g.restore();
+      a.circ(GX(A1), GY(v1), 5.5, C.text, true); a.txt('tubería', GX(A1), GY(v1) - 10, C.text, 11, 'center');
+      a.circ(GX(A2), GY(v2), 5.5, S.rojo, true); a.txt('garganta', GX(A2) + 9, GY(v2) + 4, S.rojo, 11);
+      a.txt('A', px + pw, py + ph + 15, C.muted, 11, 'right'); a.txt('v', px - 8, py + 8, C.muted, 11, 'right');
+      // ---------- energía por unidad de volumen ----------
+      const bx = 400, by = py, bw = 240, tot = st.p1 + 0.5 * RHO * v1 * v1 / 1000;
+      a.txt('Bernoulli:  p + ½ρv² = constante', bx, by - 10, C.text, 12.5);
+      [['tubería', st.p1, 0.5 * RHO * v1 * v1 / 1000], ['garganta', p2, 0.5 * RHO * v2 * v2 / 1000]].forEach(([nm, p, k], i) => {
+        const y = by + 14 + i * 50, wp = Math.max(0, p) / tot * bw, wk = Math.min(bw, k / tot * bw);
+        a.txt(nm, bx, y - 3, C.muted, 11.5);
+        g.fillStyle = S.azul; g.fillRect(bx, y + 2, wp, 20);
+        g.fillStyle = S.naranja; g.fillRect(bx + wp, y + 2, Math.min(wk, bw - wp), 20);
+      });
+      a.line(bx, by + 118, bx + 18, by + 118, S.azul, 6); a.txt('presión', bx + 24, by + 122, C.text, 11.5);
+      a.line(bx + 96, by + 118, bx + 114, by + 118, S.naranja, 6); a.txt('cinética ½ρv²', bx + 120, by + 122, C.text, 11.5);
+      a.txt(cav ? 'Ojo: p₂ cae por debajo de la presión de vapor. El agua cavita y este modelo deja de valer.'
+                : 'Las dos barras miden lo mismo: lo que gana la cinética lo pierde la presión.',
+            70, 436, cav ? S.rojo : C.muted, 12);
+      const clave = [st.d, st.D, st.Q, st.p1].join('|');
+      if (clave !== ultimo) { ultimo = clave;
+        const b = d / st.D;
+        a.html('Continuidad: A₁v₁ = A₂v₂ ⇒ v₂ = v₁·(D/d)² = <b>' + nf(v2) + ' m/s</b> (×' + nf(v2 / v1, 1) + ') · '
+          + 'Bernoulli: p₁ − p₂ = ½ρ(v₂² − v₁²) = <b>' + nf(dp, 1) + ' kPa</b> · p₂ = <b>' + nf(p2, 1) + ' kPa</b><br>'
+          + 'La garganta tiene ' + nf(1 / (b * b), 1) + ' veces menos sección, así que el agua pasa ' + nf(1 / (b * b), 1)
+          + ' veces más deprisa; y como la energía cinética va con v², <b>la presión baja justo donde el tubo se estrecha</b>. '
+          + 'Al ensanchar otra vez se recupera (aquí sin pérdidas).<br>'
+          + 'Leído al revés es un caudalímetro: midiendo Δp se saca Q = A₂·√(2Δp / (ρ(1 − β⁴))) con β = d/D = ' + nf(b) + '.'
+          + (cav ? ' <b>Con estos valores la garganta cavita</b>: sube p₁, abre la garganta o baja el caudal.' : ''));
+      }
+    }
+  };
+  const api = build(el, spec);
+  const quieto = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let visto = true, t0 = null;
+  if ('IntersectionObserver' in window) new IntersectionObserver(e => { visto = e[0].isIntersecting; }).observe(api.cv);
+  function paso(t) {
+    if (t0 === null) t0 = t;
+    if (visto && !quieto && api.st.anim === 'si' && !document.hidden) spec.draw(api, Math.min(60, t - t0));
+    t0 = t; requestAnimationFrame(paso);
+  }
+  requestAnimationFrame(paso);
+};
+/* ---- fin sim venturi ---- */
 document.querySelectorAll('[data-sim]').forEach(el=>{const f=SIMS[el.dataset.sim];if(f)f(el);});
 })();
