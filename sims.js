@@ -785,5 +785,150 @@ SIMS.venturi = el => {
   requestAnimationFrame(paso);
 };
 /* ---- fin sim venturi ---- */
+/* ---- sims animados 2 ---- */
+(function () {
+  const nf = (x, d) => (Math.abs(x) < 1e-12 ? 0 : x).toFixed(d === undefined ? 2 : d).replace('.', ',');
+  const pal = cv => { const cs = getComputedStyle(cv.parentNode), v = n => cs.getPropertyValue(n).trim();
+    return { azul: v('--c5') || '#2a5f9e', rojo: v('--warn') || '#b03a1e', verde: v('--c2') || '#1f7a5a',
+             naranja: v('--c4') || '#a8601a', morado: v('--c3') || '#8a4a9e' }; };
+  /* monta un simulador que se redibuja solo: draw(a, dt) recibe los ms transcurridos */
+  function animado(el, spec) {
+    spec.selects = (spec.selects || []).concat([{ k: 'anim', v: 'si', l: 'Animación', opts: [['si', 'En marcha'], ['no', 'Parada']] }]);
+    const api = build(el, spec);
+    const quieto = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let visto = true, t0 = null;
+    if ('IntersectionObserver' in window) new IntersectionObserver(e => { visto = e[0].isIntersecting; }).observe(api.cv);
+    (function paso(t) {
+      if (t0 === null) t0 = t;
+      if (visto && !quieto && api.st.anim === 'si' && !document.hidden) spec.draw(api, Math.min(60, t - t0));
+      t0 = t; requestAnimationFrame(paso);
+    })(performance.now());
+    return api;
+  }
+  const G = 9.81;
+
+  /* ============================================================ T3  flotación */
+  SIMS.flotacion = el => { let fase = 0, ult = '';
+    animado(el, { w: 680, h: 400,
+      sliders: [{ k: 'rs', v: 600, min: 100, max: 2000, step: 10, l: 'Densidad del cuerpo ρ_s', u: 'kg/m³' },
+                { k: 'H', v: 30, min: 10, max: 60, step: 1, l: 'Altura del bloque', u: 'cm' },
+                { k: 'B', v: 40, min: 20, max: 80, step: 1, l: 'Lado de la base', u: 'cm' }],
+      selects: [{ k: 'rf', v: '1000', l: 'Líquido', opts: [['1000', 'Agua dulce (1000)'], ['1025', 'Agua de mar (1025)'], ['850', 'Aceite (850)'], ['13600', 'Mercurio (13 600)']] }],
+      draw(a, dt) { const st = a.st, g = a.g, S = pal(a.cv), rf = +st.rf, H = st.H / 100, B = st.B / 100;
+        const flota = st.rs < rf, cal = flota ? H * st.rs / rf : H, W = st.rs * G * B * B * H, E = rf * G * B * B * cal;
+        const Tn = flota ? 2 * Math.PI * Math.sqrt(cal / G) : 0;
+        if (dt && flota) fase += dt / 1000 * 2 * Math.PI / Math.max(Tn, 0.3) * 0.5;
+        a.clear();
+        const ys = 150, esc = 300, cx = 230, bw = B * esc, bh = H * esc;
+        const bob = flota ? Math.sin(fase) * 0.04 * bh : 0;
+        const ytop = flota ? ys - (H - cal) * esc + bob : 336 - bh;      // hundido: reposa en el fondo
+        g.save(); g.globalAlpha = .2; g.fillStyle = S.azul; g.fillRect(40, ys, 380, 190); g.restore();
+        g.strokeStyle = S.azul; g.lineWidth = 2; g.beginPath();
+        for (let x = 40; x <= 420; x += 6) { const y = ys + Math.sin(x / 18 + fase * 1.3) * 1.6; x === 40 ? g.moveTo(x, y) : g.lineTo(x, y); } g.stroke();
+        a.line(40, 340, 420, 340, C.muted, 2);
+        g.fillStyle = S.naranja; g.globalAlpha = .75; g.fillRect(cx - bw / 2, ytop, bw, bh); g.globalAlpha = 1;
+        g.strokeStyle = C.text; g.lineWidth = 1.6; g.strokeRect(cx - bw / 2, ytop, bw, bh);
+        const mg = 84 / Math.max(W, E);
+        a.arrow(cx - 14, ytop + bh / 2, cx - 14, ytop + bh / 2 + W * mg, S.rojo, 3); a.txt('peso', cx - 22, ytop + bh / 2 + W * mg, S.rojo, 12, 'right');
+        a.arrow(cx + 14, ytop + bh / 2 + 10, cx + 14, ytop + bh / 2 + 10 - E * mg, S.verde, 3); a.txt('empuje', cx + 22, ytop + bh / 2 + 10 - E * mg + 4, S.verde, 12);
+        if (flota) { a.line(cx + bw / 2 + 8, ys, cx + bw / 2 + 8, ytop + bh, C.muted, 1.2); a.txt('calado ' + nf(cal * 100, 1) + ' cm', cx + bw / 2 + 14, (ys + ytop + bh) / 2 + 4, C.text, 12); }
+        // fracción sumergida
+        const bx = 470, by = 70, hh = 200, fr = flota ? st.rs / rf : 1;
+        a.txt('Fracción sumergida', bx, by - 14, C.text, 12.5);
+        g.strokeStyle = C.muted; g.strokeRect(bx, by, 60, hh); g.fillStyle = S.azul; g.fillRect(bx, by + hh * (1 - fr), 60, hh * fr);
+        a.txt(nf(fr * 100, 0) + ' %', bx + 72, by + hh * (1 - fr) + 14, S.azul, 14);
+        a.txt('= ρ_s / ρ_líquido', bx + 72, by + hh * (1 - fr) + 32, C.muted, 11.5);
+        a.txt(flota ? 'Flota' : 'Se hunde', bx, by + hh + 30, flota ? S.verde : S.rojo, 15);
+        const k = [st.rs, st.H, st.B, st.rf].join('|');
+        if (k !== ult) { ult = k;
+          a.html('Peso = ρ_s·g·V = <b>' + nf(W, 1) + ' N</b> · empuje = ρ_líq·g·V_sumergido = <b>' + nf(E, 1) + ' N</b>'
+            + (flota ? ' · calado = H·ρ_s/ρ_líq = <b>' + nf(cal * 100, 1) + ' cm</b> · periodo de cabeceo vertical T = 2π√(calado/g) = <b>' + nf(Tn) + ' s</b>' : '') + '<br>'
+            + (flota ? 'El bloque se hunde hasta desalojar un peso de líquido igual al suyo, ni más ni menos: por eso la fracción sumergida es justo el cociente de densidades. '
+                       + 'Si lo empujas, el empuje extra lo devuelve, y oscila con un periodo que sólo depende del calado.'
+                     : 'Aunque esté sumergido del todo, el empuje (' + nf(E, 1) + ' N) no alcanza al peso: se va al fondo y la diferencia, <b>'
+                       + nf(W - E, 1) + ' N</b>, la aguanta el suelo. Es su peso aparente.')
+            + '<br>Cambia el líquido: en mercurio flota hasta el acero.'); }
+      } }); };
+
+  /* ============================================================ T7  vaciado de un depósito */
+  SIMS.vaciado = el => { let t = 0, ult = '';
+    animado(el, { w: 680, h: 420,
+      sliders: [{ k: 'h0', v: 1, min: 0.3, max: 2, step: 0.05, l: 'Nivel inicial h₀', u: 'm' },
+                { k: 'D', v: 50, min: 20, max: 100, step: 1, l: 'Diámetro del depósito', u: 'cm' },
+                { k: 'd', v: 20, min: 5, max: 50, step: 1, l: 'Diámetro del orificio', u: 'mm' },
+                { k: 'Cd', v: 0.62, min: 0.5, max: 1, step: 0.01, l: 'Coeficiente de descarga C_d', u: '' }],
+      draw(a, dt) { const st = a.st, g = a.g, S = pal(a.cv);
+        const A = Math.PI * Math.pow(st.D / 100, 2) / 4, ao = Math.PI * Math.pow(st.d / 1000, 2) / 4;
+        const tv = (A / (st.Cd * ao)) * Math.sqrt(2 * st.h0 / G), k = [st.h0, st.D, st.d, st.Cd].join('|');
+        if (k !== ult) t = 0;
+        if (dt) { t += dt / 1000 * tv / 9; if (t > tv * 1.12) t = 0; }       // el vaciado entero dura unos 9 s en pantalla
+        const tt = Math.min(t, tv), h = Math.pow(Math.sqrt(st.h0) - st.Cd * ao / (2 * A) * Math.sqrt(2 * G) * tt, 2);
+        const v = Math.sqrt(2 * G * h), y0 = 0.5, alc = v * Math.sqrt(2 * y0 / G);
+        a.clear();
+        const tx = 60, tw = 150, suelo = 340, esc = 110, yo = suelo - y0 * esc, ytop = yo - 2 * esc - 4;
+        g.save(); g.globalAlpha = .28; g.fillStyle = S.azul; g.fillRect(tx, yo - h * esc, tw, h * esc + 6); g.restore();
+        g.strokeStyle = C.text; g.lineWidth = 2.2; g.beginPath(); g.moveTo(tx, ytop); g.lineTo(tx, yo + 6); g.lineTo(tx + tw, yo + 6); g.moveTo(tx + tw, yo - 5); g.lineTo(tx + tw, ytop); g.stroke();
+        a.line(30, suelo, 660, suelo, C.muted, 2);
+        a.line(tx - 10, yo - st.h0 * esc, tx, yo - st.h0 * esc, C.muted, 1.4); a.txt('h₀', tx - 14, yo - st.h0 * esc + 4, C.muted, 11.5, 'right');
+        a.txt('h = ' + nf(h) + ' m', tx + tw / 2, yo - h * esc - 8, S.azul, 12.5, 'center');
+        if (h > 1e-4) { g.strokeStyle = S.azul; g.lineWidth = 3; g.beginPath();
+          for (let j = 0; j <= 40; j++) { const tj = j / 40 * Math.sqrt(2 * y0 / G), x = tx + tw + v * tj * esc, y = yo + 0.5 * G * tj * tj * esc; j ? g.lineTo(x, y) : g.moveTo(x, y); } g.stroke();
+          a.txt('v = ' + nf(v) + ' m/s', tx + tw + 12, yo - 10, C.text, 12.5); a.txt('alcance ' + nf(alc) + ' m', tx + tw + alc * esc, suelo + 16, C.muted, 11.5, 'center'); }
+        // h(t)
+        const px = 440, py = 50, pw = 200, ph = 150;
+        a.txt('Nivel frente al tiempo', px, py - 12, C.text, 12.5);
+        a.line(px, py + ph, px + pw, py + ph, C.muted, 1.4); a.line(px, py, px, py + ph, C.muted, 1.4);
+        g.strokeStyle = S.naranja; g.lineWidth = 2.6; g.beginPath();
+        for (let j = 0; j <= 80; j++) { const u = j / 80, hh = st.h0 * (1 - u) * (1 - u); j ? g.lineTo(px + u * pw, py + ph - hh / st.h0 * ph) : g.moveTo(px, py); } g.stroke();
+        a.line(px, py, px + pw, py + ph, C.muted, 1, [4, 4]);
+        a.circ(px + tt / tv * pw, py + ph - h / st.h0 * ph, 5.5, C.text, true);
+        a.txt('t', px + pw, py + ph + 15, C.muted, 11, 'right'); a.txt('lineal no es', px + pw - 4, py + 46, C.muted, 10.5, 'right');
+        a.txt('t = ' + nf(tt, 0) + ' s de ' + nf(tv, 0) + ' s', px, py + ph + 36, C.text, 12.5);
+        if (k !== ult) { ult = k;
+          a.html('Torricelli: v = √(2·g·h) · caudal Q = C_d·a·v · tiempo de vaciado t = (A / (C_d·a))·√(2h₀/g) = <b>' + nf(tv, 0) + ' s</b> (' + nf(tv / 60, 1) + ' min)<br>'
+            + 'La velocidad de salida depende sólo de la altura de agua que queda encima, así que <b>el depósito se vacía cada vez más despacio</b>: '
+            + 'a mitad del tiempo ya sólo queda la cuarta parte del nivel, y el chorro va llegando más cerca.<br>'
+            + 'El área del depósito es ' + nf(A / ao, 0) + ' veces la del orificio; por eso se puede despreciar la velocidad con que baja la superficie. '
+            + 'La animación va acelerada: el vaciado entero se ve en unos nueve segundos.'); }
+      } }); };
+
+  /* ============================================================ T8  experimento de Reynolds */
+  SIMS.reynolds = el => { let ult = ''; const P = []; for (let j = 0; j < 150; j++) P.push({ x: Math.random(), y: 0, s: Math.random() });
+    animado(el, { w: 680, h: 380,
+      sliders: [{ k: 'v', v: 0.05, min: 0.01, max: 1, step: 0.01, l: 'Velocidad media v', u: 'm/s' },
+                { k: 'D', v: 20, min: 5, max: 100, step: 1, l: 'Diámetro D', u: 'mm' }],
+      selects: [{ k: 'nu', v: '1e-6', l: 'Fluido', opts: [['1e-6', 'Agua (ν = 1,0·10⁻⁶ m²/s)'], ['1.5e-5', 'Aire (ν = 1,5·10⁻⁵ m²/s)'], ['1e-4', 'Aceite (ν = 1,0·10⁻⁴ m²/s)']] }],
+      draw(a, dt) { const st = a.st, g = a.g, S = pal(a.cv), Re = st.v * st.D / 1000 / (+st.nu);
+        const reg = Re < 2300 ? 0 : Re < 4000 ? 1 : 2, x0 = 50, x1 = 640, cy = 110, R = 46;
+        a.clear();
+        g.save(); g.globalAlpha = .12; g.fillStyle = S.azul; g.fillRect(x0, cy - R, x1 - x0, 2 * R); g.restore();
+        a.line(x0, cy - R, x1, cy - R, C.text, 2.2); a.line(x0, cy + R, x1, cy + R, C.text, 2.2);
+        a.line(x0 - 26, cy, x0 + 4, cy, S.rojo, 3); a.txt('tinta', x0 - 30, cy - 8, S.rojo, 11.5);
+        const amp = reg === 0 ? 0 : reg === 1 ? 0.35 : 1;
+        P.forEach(p => { if (dt) { p.x += dt * 0.00022 * (0.6 + p.s * 0.2); if (p.x > 1) { p.x -= 1; p.y = 0; }
+            const des = Math.max(0, p.x - (reg === 2 ? 0.08 : 0.3));
+            p.y += (Math.random() - .5) * amp * 0.09 * (des > 0 ? 1 : 0); p.y = Math.max(-0.9, Math.min(0.9, p.y)); if (!amp) p.y *= 0.8; }
+          a.circ(x0 + p.x * (x1 - x0), cy + p.y * R + (reg === 1 ? Math.sin(p.x * 30) * 4 * Math.max(0, p.x - .25) : 0), 2.6, S.rojo, true); });
+        a.txt(['Laminar: el hilo de tinta no se mezcla', 'Transición: el hilo ondula y se rompe a ratos', 'Turbulento: la tinta llena toda la sección'][reg], x0, cy + R + 24, [S.verde, S.naranja, S.rojo][reg], 13);
+        // escala de Re
+        const sx = 50, sy = 250, sw = 590, L = v => sx + (Math.log10(Math.max(10, Math.min(1e6, v))) - 1) / 5 * sw;
+        a.txt('Número de Reynolds  Re = v·D / ν', sx, sy - 14, C.text, 12.5);
+        [[10, 2300, S.verde], [2300, 4000, S.naranja], [4000, 1e6, S.rojo]].forEach(z => { g.save(); g.globalAlpha = .3; g.fillStyle = z[2]; g.fillRect(L(z[0]), sy, L(z[1]) - L(z[0]), 22); g.restore(); });
+        [10, 100, 1000, 1e4, 1e5, 1e6].forEach((v, i) => { a.line(L(v), sy + 22, L(v), sy + 28, C.muted, 1.2); a.txt('10' + '¹²³⁴⁵⁶'[i], L(v), sy + 42, C.muted, 11, 'center'); });
+        a.txt('2300', L(2300), sy - 3, C.muted, 10.5, 'center'); a.txt('4000', L(4000) + 14, sy - 3, C.muted, 10.5, 'center');
+        g.fillStyle = C.text; g.beginPath(); g.moveTo(L(Re), sy + 22); g.lineTo(L(Re) - 7, sy + 36); g.lineTo(L(Re) + 7, sy + 36); g.closePath(); g.fill();
+        a.line(L(Re), sy - 2, L(Re), sy + 24, C.text, 2.4);
+        a.txt('Re = ' + nf(Re, 0), Math.min(L(Re), sx + sw - 70), sy + 62, C.text, 14);
+        const k = [st.v, st.D, st.nu].join('|');
+        if (k !== ult) { ult = k; const f = reg === 0 ? 64 / Re : 0.316 * Math.pow(Re, -0.25);
+          a.html('Re = v·D/ν = ' + nf(st.v) + ' · ' + nf(st.D / 1000, 3) + ' / ' + (+st.nu).toExponential(1).replace('.', ',') + ' = <b>' + nf(Re, 0) + '</b> · régimen <b>'
+            + ['laminar', 'de transición', 'turbulento'][reg] + '</b> · factor de fricción f ≈ <b>' + nf(f, 4) + '</b> ('
+            + (reg === 0 ? '64/Re' : reg === 1 ? 'orientativo: en la transición no hay fórmula fiable' : 'Blasius, tubo liso: 0,316·Re^−0,25') + ')<br>'
+            + 'Re compara la inercia del fluido con su viscosidad. Si manda la viscosidad, cualquier perturbación se amortigua y las capas resbalan ordenadas; '
+            + 'si manda la inercia, las perturbaciones crecen y el flujo se desordena.<br>'
+            + 'Prueba el mismo tubo con aceite: hace falta cien veces más velocidad que con agua para llegar a turbulento.'); }
+      } }); };
+})();
+/* ---- fin sims animados 2 ---- */
 document.querySelectorAll('[data-sim]').forEach(el=>{const f=SIMS[el.dataset.sim];if(f)f(el);});
 })();
